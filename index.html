@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paróquia São José Operário — Cascavel, PR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EDDD;
+    --paper-card:#EBE0C8;
+    --wood-dark:#33231A;
+    --wood:#6E4429;
+    --wood-deep:#4A2E1D;
+    --brass:#B8863B;
+    --brass-light:#D9AE68;
+    --ink:#2B2019;
+    --ink-soft:#5A4B3E;
+    --line:rgba(51,35,26,0.16);
+    --shadow: 0 10px 30px rgba(51,35,26,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Karla', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    color:var(--wood-dark);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.03em;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- Bordas e Sombras de Texto para Alta Legibilidade ---------- */
+  .text-outline-strong {
+    text-shadow:
+      -1.5px -1.5px 0 #1a100a,
+       1.5px -1.5px 0 #1a100a,
+      -1.5px  1.5px 0 #1a100a,
+       1.5px  1.5px 0 #1a100a,
+       0px 4px 12px rgba(0, 0, 0, 0.95);
+  }
+
+  /* ---------- Régua Divisora ---------- */
+  .ruler{
+    position:relative;
+    height:34px;
+    background: repeating-linear-gradient(90deg, var(--wood) 0px, var(--wood) 1px, transparent 1px, transparent 24px);
+    background-color: var(--brass);
+    overflow:hidden;
+    opacity:0.9;
+  }
+  .ruler::before{
+    content:"";
+    position:absolute; left:0; right:0; top:0; height:100%;
+    background: repeating-linear-gradient(90deg, transparent 0, transparent 22px, var(--wood-deep) 22px, var(--wood-deep) 23px);
+  }
+  .ruler .ticks{
+    position:absolute; inset:0;
+    display:flex; align-items:flex-end;
+  }
+  .ruler .ticks span{
+    flex:0 0 96px;
+    height:14px;
+    border-left:2px solid var(--wood-deep);
+    position:relative;
+  }
+  .ruler .ticks span::after{
+    content: counter(t) "cm";
+    counter-increment:t;
+    position:absolute; left:4px; bottom:16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--wood-deep);
+  }
+  .ruler .ticks{counter-reset:t;}
+
+  /* ---------- Header Unificado ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .topbar{
+    background:var(--wood-dark);
+    color:var(--paper);
+    font-size:12px;
+    letter-spacing:0.04em;
+  }
+  .topbar-content{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:6px; padding-bottom:6px; flex-wrap:wrap; gap:8px;
+  }
+  .topbar-contacts{ display:flex; align-items:center; gap:16px; }
+  .topbar a{ opacity:0.9; transition:opacity .15s; color:var(--paper); }
+  .topbar a:hover{ opacity:1; color:var(--brass-light); }
+  .admin-login-btn{
+    background:var(--brass); color:#fff; border:none; padding:3px 10px;
+    border-radius:3px; font-weight:700; font-size:11px; cursor:pointer;
+    transition:background .2s;
+  }
+  .admin-login-btn:hover{ background:var(--brass-light); color:var(--wood-dark); }
+
+  nav.mainnav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0; position:relative;
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand .mark{
+    width:44px; height:44px; flex:none;
+    border-radius:6px; overflow:hidden;
+    background:var(--paper-card); border:1px solid var(--line);
+    position:relative; transition:transform .3s ease;
+  }
+  .brand:hover .mark{ transform:rotate(-6deg) scale(1.05); }
+  .brand .mark img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .brand .mark svg.fallback{ position:absolute; inset:0; }
+  .brand .mark img.broken{ display:none; }
+
+  .brand .name{
+    font-family:'Fraunces', serif; font-size:19px; line-height:1.15;
+    color:var(--wood-dark); font-weight:600;
+  }
+  .brand .name small{
+    display:block; font-family:'Karla', sans-serif; font-size:11px; font-weight:600;
+    letter-spacing:0.14em; color:var(--brass); text-transform:uppercase;
+  }
+
+  .navlinks{ display:flex; gap:22px; font-size:14px; font-weight:600; align-items:center; }
+  .navlinks a{
+    position:relative; padding:4px 0; color:var(--ink-soft); transition:color .15s;
+  }
+  .navlinks a:hover{ color:var(--wood-dark); }
+  .navlinks a::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px;
+    background:var(--brass); transition:width .2s;
+  }
+  .navlinks a:hover::after{ width:100%; }
+
+  .menu-toggle{
+    display:none; flex-direction:column; gap:5px; background:none; border:none;
+    cursor:pointer; padding:6px; border-radius:4px;
+  }
+  .menu-toggle span{
+    display:block; width:24px; height:2.5px; background:var(--wood-dark);
+    border-radius:2px; transition:0.3s;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{ position:relative; padding:0 0 84px; overflow:hidden; }
+  .carousel{
+    position:relative; width:100%; height:580px; overflow:hidden; background:var(--wood-dark);
+  }
+  .carousel-track{ display:flex; width:100%; height:100%; transition:transform .7s cubic-bezier(.65,0,.35,1); }
+  .carousel-slide{ flex:0 0 100%; height:100%; background-size:cover; background-position:center; }
+  .carousel::after{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(20, 12, 8, 0.65) 0%, rgba(30, 18, 12, 0.55) 50%, rgba(20, 12, 8, 0.88) 100%);
+  }
+  .carousel-overlay{
+    position:absolute; inset:0; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:30px 20px;
+  }
+  .carousel-overlay .eyebrow{ color:var(--brass-light); font-weight:700; text-shadow:0 2px 4px rgba(0,0,0,0.8); }
+  .carousel-overlay h1{
+    color:#FFFFFF; font-size:clamp(32px,5.2vw,58px); font-weight:700; line-height:1.1; margin-top:10px;
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.6);
+  }
+  .carousel-overlay h1 em{ font-style:normal; color:var(--brass-light); }
+  .carousel-overlay .lead{
+    margin-top:18px; max-width:58ch; color:#F4EDDD; font-size:17.5px; font-weight:500; line-height:1.65;
+    background: rgba(35, 20, 12, 0.65); padding:14px 22px; border-radius:8px;
+    backdrop-filter: blur(4px); border:1px solid rgba(255,255,255,0.12);
+  }
+  .carousel-overlay .hero-actions{ margin-top:26px; justify-content:center; }
+  .btn-ghost.on-dark{ border-color:var(--paper); color:var(--paper); }
+  .btn-ghost.on-dark:hover{ background:var(--paper); color:var(--wood-dark); }
+
+  .carousel-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:46px; height:46px; border-radius:50%;
+    border:1.5px solid rgba(244,237,221,0.5); background:rgba(51,35,26,0.5);
+    color:var(--paper); font-size:22px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; user-select:none; transition:background .2s, transform .2s;
+  }
+  .carousel-arrow:hover{ background:var(--brass); border-color:var(--brass); transform:translateY(-50%) scale(1.1); }
+  .carousel-arrow.prev{ left:20px; }
+  .carousel-arrow.next{ right:20px; }
+
+  .carousel-dots{
+    position:absolute; bottom:22px; left:0; right:0; z-index:3;
+    display:flex; justify-content:center; gap:10px;
+  }
+  .carousel-dots button{
+    width:10px; height:10px; border-radius:50%; padding:0; border:none;
+    background:rgba(244,237,221,0.4); cursor:pointer; transition:background .2s, transform .2s;
+  }
+  .carousel-dots button.active{ background:var(--brass-light); transform:scale(1.35); }
+
+  .hero-panel-wrap{ position:relative; z-index:4; margin-top:-70px; display:flex; justify-content:center; }
+  .hero-panel{
+    position:relative; background:var(--wood-dark); border-radius:8px;
+    padding:34px; color:var(--paper); box-shadow:var(--shadow); width:100%; max-width:480px;
+  }
+  .hero-panel::before{
+    content:""; position:absolute; inset:10px; border:1px solid rgba(244,237,221,0.25);
+    border-radius:4px; pointer-events:none;
+  }
+  .hero-panel h3{
+    color:var(--brass-light); font-size:13px; text-transform:uppercase; letter-spacing:0.12em;
+    font-family:'Karla',sans-serif; font-weight:700; margin-bottom:18px;
+  }
+  .schedule-row{
+    display:flex; justify-content:space-between; padding:11px 0;
+    border-bottom:1px dashed rgba(244,237,221,0.2); font-size:14px;
+  }
+  .schedule-row:last-child{ border-bottom:none; }
+  .schedule-row .t{ font-family:'IBM Plex Mono', monospace; color:var(--brass-light); font-weight:600; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:13px 24px; border-radius:4px;
+    font-weight:700; font-size:14px; border:1.5px solid transparent; cursor:pointer; transition:0.2s;
+  }
+  .btn-primary{ background:var(--wood-dark); color:var(--paper); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:var(--shadow); background:var(--wood); }
+  .btn-ghost{ border-color:var(--wood-dark); color:var(--wood-dark); }
+  .btn-ghost:hover{ background:var(--wood-dark); color:var(--paper); }
+
+  /* ---------- Seções ---------- */
+  .section{ padding:70px 0; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:38px; flex-wrap:wrap; gap:16px;
+  }
+  .section-tag{
+    font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--brass); margin-bottom:8px; display:block;
+  }
+  .section-head h2{ font-size:clamp(26px,3vw,34px); font-weight:600; }
+  .see-all{ font-size:13px; font-weight:700; color:var(--wood-dark); border-bottom:2px solid var(--brass); padding-bottom:2px; }
+
+  /* ---------- Quick access ---------- */
+  .quick-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
+  .quick-card{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:6px;
+    padding:24px 16px; text-align:center; transition:transform .18s, box-shadow .18s, border-color .18s;
+  }
+  .quick-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--brass); }
+  .quick-card .icon{ width:32px; height:32px; margin:0 auto 12px; color:var(--wood); transition:0.3s; }
+  .quick-card:hover .icon{ transform:scale(1.15); color:var(--brass); }
+  .quick-card span{ font-weight:700; font-size:13.5px; color:var(--wood-dark); }
+
+  /* ---------- Notícias ---------- */
+  .news-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .news-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:6px; overflow:hidden;
+    transition:box-shadow .18s, transform .18s, border-color .18s; cursor:pointer;
+  }
+  .news-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--brass); }
+  .news-thumb{ height:130px; background:linear-gradient(135deg, var(--wood) 0%, var(--wood-deep) 100%); position:relative; overflow:hidden; }
+  .news-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .4s ease; }
+  .news-card:hover .news-thumb img{ transform:scale(1.08); }
+  .news-date{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--brass); padding:14px 16px 0; display:block; font-weight:600; }
+  .news-title{ padding:8px 16px 18px; font-family:'Fraunces',serif; font-size:15.5px; font-weight:600; line-height:1.35; color:var(--wood-dark); }
+
+  /* ---------- Padres ---------- */
+  .priests-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  .priest-card{ text-align:center; }
+  .priest-photo{
+    width:100%; aspect-ratio:1; border-radius:6px; background:var(--wood-dark); margin-bottom:12px;
+    position:relative; border:1px solid var(--line); overflow:hidden;
+  }
+  .priest-photo img{ width:100%; height:100%; object-fit:cover; transition:transform .4s ease; }
+  .priest-card:hover .priest-photo img{ transform:scale(1.06); }
+  .priest-name{ font-weight:700; font-size:14.5px; color:var(--wood-dark); }
+  .priest-role{ font-size:12px; color:var(--ink-soft); margin-top:3px; }
+
+  /* ---------- Pastorais ---------- */
+  .pastorais-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .pastoral-card{
+    background:var(--wood-dark); color:var(--paper); border-radius:6px; padding:22px 16px;
+    text-align:center; position:relative; overflow:hidden; transition:transform .18s, background .25s;
+  }
+  .pastoral-card:hover{ transform:translateY(-4px); background:var(--wood); }
+  .pastoral-card::before{ content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--brass); }
+  .pastoral-card .icon{ width:28px; height:28px; margin:0 auto 12px; color:var(--brass-light); }
+  .pastoral-card span{ font-size:13.5px; font-weight:700; letter-spacing:0.01em; color:var(--paper); }
+
+  /* ---------- Padroeiro ---------- */
+  .padroeiro{
+    background:var(--wood-dark); color:var(--paper); border-radius:8px; padding:48px;
+    display:grid; grid-template-columns:0.85fr 1.15fr; gap:44px; align-items:center;
+  }
+  .padroeiro-art{ aspect-ratio:4/5; border-radius:6px; background:var(--wood); overflow:hidden; position:relative; }
+  .padroeiro-art img{ width:100%; height:100%; object-fit:cover; }
+  .padroeiro h3{ color:var(--brass-light); font-family:'Karla',sans-serif; text-transform:uppercase; font-size:12.5px; letter-spacing:0.12em; font-weight:700; margin-bottom:12px; }
+  .padroeiro h2{ color:var(--paper); font-size:28px; margin-bottom:16px; }
+  .padroeiro p{ color:rgba(244,237,221,0.88); line-height:1.7; font-size:15px; margin-bottom:12px; }
+
+  /* ---------- Horários / Secretaria / Dízimo ---------- */
+  .split-two{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .panel{ background:var(--paper-card); border:1px solid var(--line); border-radius:6px; padding:30px; }
+  .panel h3{ font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--brass); font-weight:700; margin-bottom:18px; font-family:'Karla',sans-serif; }
+  .hours-table{ width:100%; border-collapse:collapse; }
+  .hours-table td{ padding:10px 0; border-bottom:1px solid var(--line); font-size:14px; }
+  .hours-table td:first-child{ font-weight:700; color:var(--wood-dark); }
+  .hours-table td:last-child{ text-align:right; font-family:'IBM Plex Mono', monospace; color:var(--ink-soft); }
+
+  .pix-box{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    background:var(--paper); border:1px dashed var(--brass); border-radius:6px; padding:14px 16px;
+  }
+  .pix-key{ font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--wood-dark); font-weight:600; flex:1; min-width:160px; }
+  .mp-box{ display:flex; flex-direction:column; gap:8px; }
+  .mp-box input{
+    padding:11px 14px; border:1px solid var(--line); border-radius:4px;
+    font-family:'IBM Plex Mono', monospace; font-size:15px; background:var(--paper); color:var(--ink);
+  }
+
+  /* ---------- Acessibilidade e Alto Contraste ---------- */
+  .a11y-widget{
+    position:fixed; left:20px; bottom:20px; z-index:150;
+    background:var(--wood-dark); border-radius:30px; padding:6px 12px;
+    display:flex; align-items:center; gap:6px; box-shadow:var(--shadow);
+  }
+  .a11y-widget button{
+    width:34px; height:34px; border-radius:50%; border:none; background:transparent;
+    color:var(--paper); font-weight:700; font-size:13px; cursor:pointer; transition:0.2s;
+  }
+  .a11y-widget button:hover{ background:var(--brass); }
+  .a11y-label{ color:var(--brass-light); font-size:10px; text-transform:uppercase; font-weight:700; margin-right:4px; }
+
+  body.high-contrast{
+    --paper:#000000; --paper-card:#121212; --wood-dark:#FFFFFF; --wood:#FFD54A;
+    --wood-deep:#FFFFFF; --brass:#FFD54A; --brass-light:#FFE9A8; --ink:#FFFFFF;
+    --ink-soft:#E0E0E0; --line:rgba(255,255,255,0.4);
+  }
+  body.high-contrast .pastoral-card{ background:#1A1A1A; border:1px solid #FFD54A; }
+  body.high-contrast .pastoral-card span{ color:#FFFFFF !important; }
+  body.high-contrast .pastoral-card .icon{ color:#FFD54A !important; }
+
+  /* ---------- Modal Administrativo ---------- */
+  .admin-modal{
+    position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:300;
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .admin-modal-content{
+    background:var(--paper); border-radius:8px; max-width:500px; width:100%; padding:32px;
+    position:relative; box-shadow:var(--shadow); border:1px solid var(--brass);
+  }
+  .close-modal{ position:absolute; top:16px; right:16px; background:none; border:none; font-size:20px; cursor:pointer; color:var(--wood-dark); }
+  .form-group{ margin-bottom:16px; display:flex; flex-direction:column; gap:6px; }
+  .form-group label{ font-size:12px; font-weight:700; text-transform:uppercase; color:var(--wood-dark); }
+  .form-group input, .admin-input{
+    padding:10px 14px; border:1px solid var(--line); border-radius:4px; font-size:14px; background:#fff;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{ background:var(--wood-dark); color:rgba(244,237,221,0.8); padding:48px 0 24px; }
+  .footer-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr 1.2fr; gap:36px; padding-bottom:32px; border-bottom:1px solid rgba(244,237,221,0.14); }
+  .footer-grid h4{ color:var(--brass-light); font-size:12px; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:14px; font-weight:700; }
+  .footer-grid p, .footer-grid a{ font-size:13.5px; line-height:1.9; color:rgba(244,237,221,0.75); display:block; }
+  .foot-brand{ font-family:'Fraunces',serif; font-size:19px; color:var(--paper); font-weight:600; margin-bottom:8px; }
+  .bottom-bar{ display:flex; justify-content:space-between; padding-top:20px; font-size:12px; color:rgba(244,237,221,0.5); }
+
+  .toast{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--wood-dark); color:var(--paper); padding:12px 22px; border-radius:4px;
+    font-size:13.5px; font-weight:600; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:0.25s; z-index:400;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* Responsividade */
+  @media (max-width: 980px){
+    .menu-toggle{ display:flex; }
+    .navlinks{
+      position:absolute; top:100%; left:0; right:0; background:var(--paper);
+      flex-direction:column; padding:20px; gap:16px; display:none;
+      border-bottom:2px solid var(--brass); box-shadow:var(--shadow);
+    }
+    .navlinks.active{ display:flex; }
+    .hero-panel-wrap{ margin-top:-40px; }
+    .quick-grid{ grid-template-columns:repeat(3,1fr); }
+    .news-grid, .priests-grid, .pastorais-grid{ grid-template-columns:repeat(2,1fr); }
+    .padroeiro{ grid-template-columns:1fr; padding:32px; }
+    .split-two{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width: 580px){
+    .quick-grid{ grid-template-columns:repeat(2,1fr); }
+    .news-grid, .priests-grid, .pastorais-grid{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr; }
+    .carousel{ height:440px; }
+    .carousel-overlay h1{ font-size:28px; }
+    .carousel-overlay .lead{ font-size:14px; padding:10px 14px; }
+  }
+
+/* ===== Contorno e legibilidade ===== */
+.carousel::after{ background:linear-gradient(180deg,rgba(20,13,9,.66),rgba(20,13,9,.6) 40%,rgba(20,13,9,.9)); }
+.carousel-overlay h1,.carousel-overlay .lead,.carousel-overlay .eyebrow{ color:#fff; -webkit-text-stroke:.8px rgba(0,0,0,.65); paint-order:stroke fill; text-shadow:0 2px 12px rgba(0,0,0,.65); }
+.carousel-overlay h1 em{ color:#F3D08A; }
+h1,h2,h3,.navlinks a,.priest-name,.news-title{ -webkit-text-stroke:.35px currentColor; }
+.hero-panel,.padroeiro,footer{ text-shadow:0 1px 2px rgba(0,0,0,.45); }
+img{ max-width:100%; height:auto; }
+
+/* ===== Pastorais ===== */
+.pastorais-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; }
+.pastoral-card{ text-align:left; padding:0; overflow:hidden; display:flex; flex-direction:column; cursor:default; }
+.pastoral-card .p-img{ height:150px; background:var(--wood); position:relative; display:flex; align-items:center; justify-content:center; color:#D9AE68; font-size:34px; }
+.pastoral-card .p-img img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.pastoral-card .p-body{ padding:18px; }
+.pastoral-card h3{ color:#F4EDDD; font-size:16px; -webkit-text-stroke:0; }
+.pastoral-card p{ color:#F4EDDD; font-size:13.5px; line-height:1.6; opacity:.92; margin:8px 0 0; }
+.pastoral-card .p-time{ margin-top:12px; font-size:12.5px; color:#E3BE7E; font-family:'IBM Plex Mono',monospace; opacity:1; }
+body.high-contrast .pastoral-card h3,body.high-contrast .pastoral-card p{ color:#fff !important; }
+body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
+
+/* ===== Eventos / notícias ===== */
+.news-badge{ display:inline-block; margin:10px 16px 0; padding:3px 9px; border-radius:3px; background:var(--brass); color:#fff; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+.news-reg{ display:inline-block; margin:0 16px 16px; padding:8px 14px; border-radius:3px; background:var(--wood-dark); color:#fff; font-size:12.5px; font-weight:700; }
+.news-reg:hover{ background:var(--brass); }
+
+/* ===== Pensamento do dia ===== */
+.thought{ text-align:center; max-width:760px; margin:0 auto; padding:28px 20px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.thought blockquote{ margin:12px 0; font-family:'Fraunces',serif; font-size:clamp(18px,2.6vw,24px); line-height:1.5; color:var(--wood-dark); }
+.thought cite{ font-size:13px; color:var(--brass); font-style:normal; font-weight:700; letter-spacing:.06em; }
+
+/* ===== Vela virtual ===== */
+.vela-box{ display:grid; grid-template-columns:1fr 1.3fr; gap:32px; align-items:start; }
+.vela-wall{ display:flex; flex-wrap:wrap; gap:18px 14px; min-height:150px; padding:22px; border-radius:6px; background:#241611; align-content:flex-start; max-height:340px; overflow:auto; }
+.vela-empty{ color:#D9AE68; font-size:14px; margin:auto; text-align:center; }
+.candle{ width:64px; text-align:center; }
+.candle .flame{ width:14px; height:24px; margin:0 auto -2px; border-radius:50% 50% 50% 50%/60% 60% 40% 40%; background:radial-gradient(circle at 50% 70%,#fff6c9,#ffc94a 55%,#ff8a1f); box-shadow:0 0 14px 4px rgba(255,170,50,.55); animation:flick 1.4s infinite ease-in-out alternate; transform-origin:50% 90%; }
+.candle .wax{ width:20px; height:44px; margin:0 auto; border-radius:3px; background:linear-gradient(90deg,#e9dcc0,#fff7e3,#e2d2b0); }
+.candle .who{ font-size:11px; color:#F4EDDD; margin-top:6px; line-height:1.25; word-break:break-word; }
+.candle.new{ animation:pop .5s ease-out; }
+@keyframes flick{ from{ transform:scale(1) rotate(-2deg); opacity:.95 } to{ transform:scale(1.08,.94) rotate(2deg); opacity:1 } }
+@keyframes pop{ from{ transform:translateY(12px); opacity:0 } to{ transform:none; opacity:1 } }
+@media (prefers-reduced-motion:reduce){ .candle .flame{ animation:none } }
+
+/* ===== Responsivo ===== */
+.admin-modal-content{ max-height:92vh; overflow:auto; }
+@media (max-width:980px){ .pastorais-grid{ grid-template-columns:repeat(2,1fr); } .vela-box{ grid-template-columns:1fr; } }
+@media (max-width:560px){
+  .pastorais-grid,.news-grid,.footer-grid{ grid-template-columns:1fr !important; }
+  .quick-grid{ grid-template-columns:repeat(2,1fr) !important; }
+  .section{ padding:48px 0; }
+  .wrap{ padding-left:18px; padding-right:18px; }
+}
+
+/* ===== Eventos ===== */
+.event-card{ text-align:left; cursor:pointer; font:inherit; color:inherit; padding:0; width:100%; display:block; }
+.event-card .more{ display:block; margin:0 16px 16px; font-size:12.5px; font-weight:700; color:var(--brass); }
+.event-card:focus-visible{ outline:3px solid var(--brass); outline-offset:2px; }
+
+/* ===== Pix com QR Code ===== */
+.pix-row{ display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+.pix-qr{ margin:0 auto; text-align:center; }
+.pix-qr img{ width:150px; height:150px; border:1px solid var(--line); border-radius:6px; background:#fff; padding:4px; display:block; }
+.pix-qr figcaption{ font-size:12px; color:var(--ink-soft); margin-top:6px; }
+
+/* ===== Imagem da igreja ampliada ===== */
+.carousel.hero-single{ height:clamp(480px,82vh,800px); background-size:cover; background-position:center; }
+
+/* ===== Padres + interação com o mouse ===== */
+.priest-card{ background:var(--paper-card,#EBE0C8); border:1px solid var(--line); border-radius:8px; padding:12px 12px 16px; transition:box-shadow .25s ease, border-color .25s ease; transform-style:preserve-3d; will-change:transform; }
+.priest-card:hover{ box-shadow:0 18px 36px rgba(51,35,26,.22); border-color:var(--brass); }
+.priest-photo{ margin-bottom:14px; }
+.priest-name{ position:relative; display:inline-block; padding-bottom:4px; }
+.priest-name::after{ content:""; position:absolute; left:0; bottom:0; height:2px; width:0; background:var(--brass); transition:width .3s ease; }
+.priest-card:hover .priest-name::after{ width:100%; }
+.glare{ position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .25s ease;
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,30%), rgba(255,255,255,.38), transparent 60%); }
+.priest-card:hover .glare{ opacity:1; }
+.hero-single::before{ content:""; position:absolute; inset:0; z-index:2; pointer-events:none; opacity:0; transition:opacity .35s ease;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,40%), rgba(255,214,140,.24), transparent 62%); }
+.hero-single:hover::before{ opacity:1; }
+.carousel-overlay{ transition:transform .15s ease-out; }
+@media (hover:none), (prefers-reduced-motion:reduce){ .priest-card{ transform:none !important; } .hero-single::before{ display:none; } }
+
+/* ===== Carta do padre (janela com zoom) ===== */
+.priest-photo{ cursor:zoom-in; }
+.priest-photo:focus-visible{ outline:3px solid var(--brass); outline-offset:3px; }
+.priest-modal{ position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(20,13,9,.84); backdrop-filter:blur(3px); perspective:1000px; }
+.pm-close{ position:absolute; top:18px; right:22px; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(255,255,255,.5); background:rgba(0,0,0,.35); color:#fff; font-size:18px; cursor:pointer; transition:background .2s, transform .2s; }
+.pm-close:hover{ background:var(--brass); transform:rotate(90deg); }
+.big-card{ width:min(420px,88vw); padding:14px 14px 22px; text-align:center; border-radius:16px; border:2px solid var(--brass); background:linear-gradient(160deg,#F4EDDD,#E3D3AE); box-shadow:0 30px 70px rgba(0,0,0,.55); transform-style:preserve-3d; will-change:transform; animation:cardIn .45s cubic-bezier(.2,.9,.3,1.2); touch-action:none; }
+@keyframes cardIn{ from{ transform:scale(.6) rotateY(-40deg); opacity:0; } to{ transform:none; opacity:1; } }
+.big-photo{ position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden; background:var(--wood-dark); transform:translateZ(30px); }
+.big-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.big-photo .glare{ opacity:1; background:radial-gradient(300px circle at var(--gx,50%) var(--gy,30%), rgba(255,255,255,.45), transparent 60%); }
+.foil{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:color-dodge; opacity:.35;
+  background:linear-gradient(115deg, transparent 20%, rgba(255,180,80,.55) 35%, rgba(120,200,255,.45) 50%, rgba(255,120,200,.45) 65%, transparent 80%);
+  background-size:250% 250%; background-position:var(--sx,50%) var(--sy,50%); }
+.big-name{ margin-top:16px; font-family:'Fraunces',serif; font-size:21px; font-weight:600; color:#33231A; transform:translateZ(40px); }
+.big-sub{ margin-top:4px; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--brass); font-weight:700; transform:translateZ(25px); }
+@media (prefers-reduced-motion:reduce){ .big-card{ animation:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="wrap topbar-content">
+      <span>Paróquia São José Operário — Cascavel, PR</span>
+      <div class="topbar-contacts">
+        <a href="tel:+554532264660">📞 (45) 3226-4660</a>
+        <a href="https://wa.me/5545999960670" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <button class="admin-login-btn" onclick="openAdminModal()">Área Administrativa</button>
+      </div>
+    </div>
+  </div>
+  <nav class="mainnav wrap">
+    <div class="brand">
+      <div class="mark">
+        <img src="imagens/logo.jfif" alt="Logo da Paróquia São José Operário" onerror="this.classList.add('broken')">
+        <svg class="fallback" viewBox="0 0 44 44" fill="none">
+          <rect x="1" y="1" width="42" height="42" rx="4" stroke="#6E4429" stroke-width="1.5"/>
+          <path d="M22 8 L22 30 M14 14 L30 14" stroke="#B8863B" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="name">Paróquia São José Operário<small>Cascavel · Paraná</small></div>
+    </div>
+    
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Abrir Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="navlinks" id="navLinks">
+      <a href="#inicio" onclick="closeMenu()">Início</a>
+      <a href="#horarios" onclick="closeMenu()">Horários</a>
+      <a href="#noticias" onclick="closeMenu()">Notícias</a>
+      <a href="#eventos" onclick="closeMenu()">Eventos</a>
+      <a href="#padres" onclick="closeMenu()">Padres</a>
+      <a href="#padroeiro" onclick="closeMenu()">Padroeiro</a>
+      <a href="#vela" onclick="closeMenu()">Vela virtual</a>
+      <a href="#dizimo" onclick="closeMenu()">Dízimo</a>
+      <a href="#contato" onclick="closeMenu()">Contato</a>
+    </div>
+  </nav>
+</header>
+
+<div class="ruler"><div class="ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+
+<!-- HERO / CARROSSEL -->
+<section class="hero" id="inicio">
+  <div class="carousel hero-single" style="background-image:url('imagens/igreja.jfif')">
+    <div class="carousel-overlay">
+      <span class="eyebrow text-outline-strong">Comunidade Católica</span>
+      <h1 class="text-outline-strong">Seja bem-vindo <em>à nossa paróquia</em></h1>
+      <p class="lead text-outline-strong">Um espaço para se aproximar da nossa comunidade: horários de missa, notícias, eventos e tudo o que você precisa para caminhar conosco em fé, sob a proteção de São José Operário.</p>
+      <div class="hero-actions">
+        <a href="#horarios" class="btn btn-primary">Ver horários de missa</a>
+        <a href="https://wa.me/5545999960670" target="_blank" rel="noopener" class="btn btn-ghost on-dark">Falar pelo WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap hero-panel-wrap">
+    <div class="hero-panel">
+      <h3>Missas desta semana</h3>
+      <table style="width:100%; border-collapse:collapse;">
+        <tr class="schedule-row"><td>Segunda, terça, quinta e sexta</td><td class="t">19:00</td></tr>
+        <tr class="schedule-row"><td>Quarta-feira</td><td class="t">16:00 · 19:00</td></tr>
+        <tr class="schedule-row"><td>Sábado</td><td class="t">19:00</td></tr>
+        <tr class="schedule-row"><td>Domingo</td><td class="t">09:30 · 19:00</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="ruler"><div class="ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+
+<!-- ACESSO RÁPIDO -->
+<section class="section">
+  <div class="wrap">
+    <div class="quick-grid">
+      <a class="quick-card" href="https://wa.me/5545999960670?text=Ol%C3%A1%21%20Gostaria%20de%20agendar%20um%20Batismo." target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-3 3-5 6-5 9a5 5 0 0010 0c0-3-2-6-5-9z"/></svg>
+        <span>Batismo</span>
+      </a>
+      <a class="quick-card" href="https://wa.me/5545999960670?text=Ol%C3%A1%21%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20Matrim%C3%B4nio." target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C1 8.5 3 5 6.5 5c2 0 3.5 1.2 4 2.5.5-1.3 2-2.5 4-2.5C18 5 20 8.5 18.5 12 16 16.5 12 21 12 21z"/></svg>
+        <span>Matrimônio</span>
+      </a>
+      <a class="quick-card" href="#padroeiro">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M6 8l6-6 6 6M8 22h8"/></svg>
+        <span>São José</span>
+      </a>
+      <a class="quick-card" href="https://wa.me/5545999960670?text=Ol%C3%A1%21%20Gostaria%20de%20saber%20os%20hor%C3%A1rios%20de%20Confiss%C3%A3o." target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v13H8l-4 4V4z"/></svg>
+        <span>Confissões</span>
+      </a>
+      <a class="quick-card" href="https://wa.me/5545999960670?text=Ol%C3%A1%21%20Gostaria%20de%20registrar%20uma%20inten%C3%A7%C3%A3o%20de%20missa." target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3"/><path d="M6 21v-2a6 6 0 0112 0v2"/></svg>
+        <span>Intenções</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NOTÍCIAS -->
+<!-- PENSAMENTO DO DIA -->
+<section class="section" id="pensamento" style="padding-bottom:0;">
+  <div class="wrap"><div class="thought">
+    <span class="section-tag">Pensamento do dia</span>
+    <blockquote id="thoughtText"></blockquote>
+    <cite id="thoughtRef">São José Marello</cite>
+  </div></div>
+</section>
+
+<section class="section" id="noticias">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Fique por dentro</span>
+        <h2>Últimas notícias</h2>
+      </div>
+    </div>
+    <div class="news-grid" id="newsGrid">
+      <div class="news-card">
+        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/visita.png" alt="Visita do Provincial" onerror="this.classList.add('broken')"></div>
+        <span class="news-date">06 / 05 / 2026</span>
+        <div class="news-title">Visita do provincial dos Oblatos de São José Marello</div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/triduo.png" alt="Tríduo São José" onerror="this.classList.add('broken')"></div>
+        <span class="news-date">28 / 04 / 2026</span>
+        <div class="news-title">Início do tríduo em honra a São José Operário</div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/sabado.png" alt="Sábado Santo" onerror="this.classList.add('broken')"></div>
+        <span class="news-date">04 / 04 / 2026</span>
+        <div class="news-title">Celebrações do Sábado Santo na Paróquia</div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/ramos.png" alt="Domingo de Ramos" onerror="this.classList.add('broken')"></div>
+        <span class="news-date">29 / 03 / 2026</span>
+        <div class="news-title">Missa e Procissão no Domingo de Ramos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PADROEIRO -->
+<!-- EVENTOS -->
+<section class="section" id="eventos">
+  <div class="wrap">
+    <div class="section-head"><div><span class="section-tag">Participe</span><h2>Eventos</h2></div></div>
+    <div class="news-grid" id="eventsGrid"></div>
+  </div>
+</section>
+
+<!-- PADRES -->
+<section class="section" id="padres">
+  <div class="wrap">
+    <div class="section-head"><div><span class="section-tag">Nosso clero</span><h2>Padres</h2></div></div>
+    <div class="priests-grid" id="priestsGrid">
+      <article class="priest-card" data-tilt>
+        <div class="priest-photo"><img loading="lazy" src="imagens/orestes.png" width="800" height="800" alt="Pe. Orestes Monteiro de Melo" onerror="this.remove()"><span class="glare"></span></div>
+        <div class="priest-name">Pe. Orestes Monteiro de Melo</div>
+      </article>
+      <article class="priest-card" data-tilt>
+        <div class="priest-photo"><img loading="lazy" src="imagens/giovanni.png" width="800" height="800" alt="Pe. Giovanni Battista Erittu" onerror="this.remove()"><span class="glare"></span></div>
+        <div class="priest-name">Pe. Giovanni Battista Erittu</div>
+      </article>
+      <article class="priest-card" data-tilt>
+        <div class="priest-photo"><img loading="lazy" src="imagens/john.png" width="800" height="800" alt="Pe. John Mark Sebuc Comia" onerror="this.remove()"><span class="glare"></span></div>
+        <div class="priest-name">Pe. John Mark Sebuc Comia</div>
+      </article>
+      <article class="priest-card" data-tilt>
+        <div class="priest-photo"><img loading="lazy" src="imagens/chinaka.png" width="800" height="800" alt="Pe. Chinaka Justin Mbaeri" onerror="this.remove()"><span class="glare"></span></div>
+        <div class="priest-name">Pe. Chinaka Justin Mbaeri</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="padroeiro">
+  <div class="wrap">
+    <div class="padroeiro">
+      <div class="padroeiro-art"><img loading="lazy" decoding="async" src="imagens/jose.png" alt="São José Operário" onerror="this.classList.add('broken')"></div>
+      <div>
+        <h3>Nosso padroeiro</h3>
+        <h2>São José Operário</h2>
+        <p>José era galileu, morador da pequena aldeia de Nazaré. Homem justo e trabalhador humilde, recebeu de Deus a sublime missão de ser o pai protetor de Jesus Cristo e esposo da Virgem Maria.</p>
+        <p>Exemplo de dedicação, fé e honestidade, é o padroeiro de todos os trabalhadores e da nossa comunidade paroquial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VELA VIRTUAL -->
+<section class="section" id="vela">
+  <div class="wrap">
+    <div class="section-head"><div><span class="section-tag">Oração</span><h2>Vela virtual</h2></div></div>
+    <div class="vela-box">
+      <div>
+        <p style="line-height:1.7; color:var(--ink-soft); margin:0 0 18px;">Acenda uma vela e deixe sua intenção. Ela fica acesa por 24 horas e a comunidade reza junto com você.</p>
+        <div class="form-group"><label for="velaName">Seu nome (opcional)</label><input id="velaName" maxlength="30" class="admin-input" autocomplete="given-name"></div>
+        <div class="form-group"><label for="velaIntention">Sua intenção (opcional)</label><input id="velaIntention" maxlength="140" class="admin-input"></div>
+        <button class="btn btn-primary" onclick="lightCandle()">Acender vela</button>
+        <p id="velaCount" style="font-size:13px; color:var(--ink-soft); margin-top:14px;"></p>
+      </div>
+      <div class="vela-wall" id="velaWall" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HORÁRIOS & SECRETARIA -->
+<section class="section" id="horarios">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Planeje sua visita</span>
+        <h2>Horários de Atendimento e Celebrações</h2>
+      </div>
+    </div>
+    <div class="split-two">
+      <div class="panel">
+        <h3>Missas Paroquiais</h3>
+        <table class="hours-table">
+          <tr><td>Segunda, terça, quinta e sexta</td><td>19:00</td></tr>
+          <tr><td>Quarta-feira</td><td>16:00 e 19:00</td></tr>
+          <tr><td>Sábado</td><td>19:00</td></tr>
+          <tr><td>Domingo</td><td>09:30 e 19:00</td></tr>
+        </table>
+      </div>
+      <div class="panel" id="secretaria">
+        <h3>Secretaria Paroquial</h3>
+        <table class="hours-table">
+          <tr><td>Segunda a sexta</td><td>08:00 às 12:00</td></tr>
+          <tr><td></td><td>14:00 às 17:40</td></tr>
+          <tr><td>Sábado</td><td>08:00 às 11:00</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DÍZIMO -->
+<section class="section" id="dizimo">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Sustento da comunidade</span>
+        <h2>Dízimo e Oferta</h2>
+      </div>
+    </div>
+    <div class="split-two" style="grid-template-columns:1fr; max-width:620px; margin:0 auto;">
+      <div class="panel">
+        <h3>Contribuição via Pix</h3>
+        <p style="font-size:14.5px; line-height:1.6; color:var(--ink-soft); margin-bottom:16px;">Contribua com o dízimo ou oferta paroquial com segurança usando a chave Pix oficial.</p>
+        <div class="pix-row">
+          <div class="pix-box" style="flex:1 1 230px;">
+          <span class="pix-key" id="pixKey">sjoperar@gmail.com</span>
+          <button class="btn btn-primary" onclick="copyPix()">Copiar Chave</button>
+        </div>
+          <figure class="pix-qr"><img src="imagens/qr-pix.png" alt="QR Code Pix da paróquia" width="150" height="150"><figcaption>Ou aponte a câmera do celular</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contato">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="foot-brand">Paróquia São José Operário</div>
+        <p>Rua Manaus, 4344<br>Recanto Tropical, Cascavel - PR<br>CEP 85813-100</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a href="tel:+554532264660">(45) 3226-4660</a>
+        <a href="https://wa.me/5545999960670">(45) 99996-0670</a>
+        <a href="mailto:sjoperar@gmail.com">sjoperar@gmail.com</a>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <a href="#horarios">Horários</a>
+        <a href="#secretaria">Secretaria</a>
+        <a href="#noticias">Notícias</a>
+        <a href="#dizimo">Dízimo</a>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <p>Para sacramentos e intenções de missa, entre em contato diretamente com a secretaria paroquial.</p>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>© 2026 Paróquia São José Operário — Cascavel, PR</span>
+      <span>Todos os direitos reservados</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ACCESSIBILITY -->
+<div class="a11y-widget">
+  <span class="a11y-label">Acessibilidade</span>
+  <button onclick="changeFont(-1)" aria-label="Diminuir texto">A-</button>
+  <button onclick="changeFont(1)" aria-label="Aumentar texto">A+</button>
+  <button onclick="toggleContrast()" aria-label="Alto contraste">◐</button>
+</div>
+
+<!-- MODAL ADMINISTRATIVO DA SECRETARIA -->
+<div class="admin-modal" id="adminModal" style="display:none;">
+  <div class="admin-modal-content">
+    <button class="close-modal" onclick="closeAdminModal()">✕</button>
+    <div id="adminLoginForm">
+      <h3 style="margin-bottom:12px;">Acesso Administrativo</h3>
+      <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:18px;">Painel da secretaria para gerenciamento do portal.</p>
+      <form onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="adminEmail" required placeholder="secretaria@paroquia.com">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="adminPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Acessar</button>
+      </form>
+    </div>
+    <div id="adminDashboard" style="display:none;">
+      <h3>Painel da Secretaria</h3>
+      <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Publique notícias, eventos e pensamentos do dia.</p>
+      <div class="form-group"><label>Tipo</label>
+        <select id="nCategory" class="admin-input"><option value="noticia">Notícia</option><option value="evento">Evento</option></select></div>
+      <div class="form-group"><input type="text" id="nTitle" placeholder="Título" class="admin-input" maxlength="140"></div>
+      <div class="form-group"><textarea id="nExcerpt" placeholder="Descrição" class="admin-input" style="height:70px; font-family:inherit;"></textarea></div>
+      <div class="form-group"><label>Data do evento (se for evento)</label><input type="date" id="nDate" class="admin-input"></div>
+      <div class="form-group"><input type="url" id="nLink" placeholder="Link de inscrição (https://...)" class="admin-input"></div>
+      <div class="form-group"><input type="text" id="nImage" placeholder="Imagem (ex: imagens/evento.jpg)" class="admin-input"></div>
+      <button type="button" class="btn btn-primary" onclick="submitNews()" style="width:100%; justify-content:center;">Publicar</button>
+      <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
+      <div class="form-group"><label>Novo padre</label>
+        <input type="text" id="pName" placeholder="Nome (ex: Pe. Fulano de Tal)" class="admin-input" maxlength="120">
+        <input type="text" id="pPhoto" placeholder="Foto (ex: imagens/fulano.png ou https://...)" class="admin-input"></div>
+      <button type="button" class="btn btn-ghost" onclick="submitPriest()" style="width:100%; justify-content:center;">Adicionar padre</button>
+      <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
+      <div class="form-group"><label>Novo pensamento do dia</label>
+        <textarea id="tText" placeholder="Texto (confira a fonte antes de publicar)" class="admin-input" style="height:70px; font-family:inherit;"></textarea>
+        <input type="text" id="tRef" placeholder="Fonte (opcional)" class="admin-input"></div>
+      <button type="button" class="btn btn-ghost" onclick="submitThought()" style="width:100%; justify-content:center;">Salvar pensamento</button>
+      <button class="btn btn-ghost" onclick="handleAdminLogout()" style="width:100%; justify-content:center; margin-top:12px;">Sair</button>
+    </div>
+  </div>
+</div>
+
+<!-- JANELA DO EVENTO -->
+<div class="admin-modal" id="eventModal" style="display:none;" onclick="if(event.target===this)closeEvent()">
+  <div class="admin-modal-content" role="dialog" aria-modal="true" aria-labelledby="evTitle">
+    <button class="close-modal" onclick="closeEvent()" aria-label="Fechar">✕</button>
+    <div id="evDetails">
+      <span class="news-badge" id="evDate" style="margin:0 0 12px;"></span>
+      <h3 id="evTitle" style="margin-bottom:10px;"></h3>
+      <p id="evDesc" style="font-size:14.5px; line-height:1.7; color:var(--ink-soft); margin:0 0 14px;"></p>
+      <p id="evMeta" style="font-size:13.5px; line-height:1.8; color:var(--ink); margin:0 0 18px;"></p>
+      <button class="btn btn-primary" onclick="showEventPay()" style="width:100%; justify-content:center;">Comprar</button>
+    </div>
+    <div id="evPay" style="display:none; text-align:center;">
+      <h3 style="margin-bottom:6px;">Pagamento via Pix</h3>
+      <p id="evPayInfo" style="font-size:13.5px; color:var(--ink-soft); margin:0 0 6px;"></p>
+      <svg viewBox="0 0 100 100" role="img" aria-label="QR Code de exemplo" style="width:150px;height:150px;margin:6px auto 14px;display:block;border:1px solid var(--line);border-radius:4px;padding:6px;background:#F4EDDD"><rect width="100" height="100" fill="#F4EDDD"/><g fill="#33231A"><rect x="8" y="8" width="24" height="24"/><rect x="14" y="14" width="12" height="12" fill="#F4EDDD"/><rect x="68" y="8" width="24" height="24"/><rect x="74" y="14" width="12" height="12" fill="#F4EDDD"/><rect x="8" y="68" width="24" height="24"/><rect x="14" y="74" width="12" height="12" fill="#F4EDDD"/><rect x="40" y="8" width="6" height="6"/><rect x="52" y="14" width="6" height="6"/><rect x="40" y="26" width="6" height="6"/><rect x="8" y="40" width="6" height="6"/><rect x="20" y="46" width="6" height="6"/><rect x="40" y="40" width="6" height="6"/><rect x="52" y="46" width="6" height="6"/><rect x="64" y="40" width="6" height="6"/><rect x="40" y="52" width="6" height="6"/><rect x="52" y="58" width="6" height="6"/><rect x="64" y="64" width="6" height="6"/><rect x="76" y="46" width="6" height="6"/><rect x="82" y="58" width="6" height="6"/><rect x="40" y="64" width="6" height="6"/><rect x="46" y="76" width="6" height="6"/><rect x="58" y="82" width="6" height="6"/><rect x="70" y="82" width="6" height="6"/><rect x="82" y="76" width="6" height="6"/></g></svg>
+      <div class="pix-box"><span class="pix-key" id="evKey">CHAVE-PIX-PLACEHOLDER</span><button class="btn btn-primary" onclick="copyEventKey()">Copiar chave</button></div>
+      <p style="font-size:12.5px; color:var(--ink-soft); margin:12px 0;">Depois de pagar, envie o comprovante pelo WhatsApp para receber seu ingresso.</p>
+      <a class="btn btn-primary" id="evWa" href="#" target="_blank" rel="noopener" style="width:100%; justify-content:center;">Enviar comprovante</a>
+      <button class="btn btn-ghost" onclick="backEvent()" style="width:100%; justify-content:center; margin-top:10px;">Voltar</button>
+    </div>
+  </div>
+</div>
+
+<!-- JANELA DA CARTA DO PADRE -->
+<div class="priest-modal" id="priestModal" style="display:none;" onclick="if(event.target===this)closePriest()">
+  <button type="button" class="pm-close" id="pmClose" onclick="closePriest()" aria-label="Fechar">✕</button>
+  <div class="big-card" id="bigCard" role="dialog" aria-modal="true" aria-labelledby="bigName">
+    <div class="big-photo"><img id="bigImg" alt=""><span class="glare"></span><span class="foil"></span></div>
+    <div class="big-name" id="bigName"></div>
+    <div class="big-sub">Paróquia São José Operário</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Responsividade & Menu Mobile
+  function toggleMenu(){ document.getElementById('navLinks').classList.toggle('active'); }
+  function closeMenu(){ document.getElementById('navLinks').classList.remove('active'); }
+
+  // Acessibilidade
+  var fontStep = 0;
+  function changeFont(delta){
+    fontStep = Math.max(-1, Math.min(3, fontStep + delta));
+    document.body.style.zoom = (100 + fontStep * 10) + '%';
+  }
+  function toggleContrast(){ document.body.classList.toggle('high-contrast'); }
+
+  // Toasts
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2500);
+  }
+
+  function copyPix(){
+    var key = document.getElementById('pixKey').textContent.trim();
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(key).then(function(){ showToast('Chave Pix copiada com sucesso!'); });
+    } else { showToast('Chave Pix: ' + key); }
+  }
+
+  // Integracao Backend
+  const API_BASE_URL = window.location.origin.includes('localhost') ? 'http://localhost:3000' : '';
+
+
+  // Modal Admin
+  function openAdminModal(){ document.getElementById('adminModal').style.display = 'flex'; }
+  function closeAdminModal(){ document.getElementById('adminModal').style.display = 'none'; }
+  
+
+  // ---------- util ----------
+  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function safeUrl(u){ return /^https?:\/\//i.test(u || '') ? u : ''; }
+  async function api(path, opts){
+    var token = localStorage.getItem('adm_token');
+    opts = opts || {};
+    opts.headers = Object.assign({'Content-Type':'application/json'}, token ? {Authorization:'Bearer ' + token} : {}, opts.headers || {});
+    var r = await fetch(API_BASE_URL + path, opts);
+    var d = await r.json().catch(function(){ return {}; });
+    if(!r.ok){ var err = new Error(d.error || 'Erro ao falar com o servidor.'); err.status = r.status; throw err; }
+    return d;
+  }
+
+  // ---------- Notícias ----------
+  function renderNews(list){
+    document.getElementById('newsGrid').innerHTML = list.slice(0, 8).map(function(n){
+      var date = new Date(n.published_at).toLocaleDateString('pt-BR');
+      return '<div class="news-card"><div class="news-thumb">' + (n.image_url ? '<img loading="lazy" src="' + esc(n.image_url) + '" alt="' + esc(n.title) + '" onerror="this.remove()">' : '') + '</div>' +
+        '<span class="news-date">' + date + '</span><div class="news-title">' + esc(n.title) + '</div>' +
+        (n.excerpt ? '<p style="margin:0 16px 14px; font-size:13px; line-height:1.5; color:var(--ink-soft);">' + esc(n.excerpt) + '</p>' : '') + '</div>';
+    }).join('');
+  }
+
+  // ---------- Eventos (edite esta lista; com o backend no ar, os eventos cadastrados no painel substituem estes) ----------
+  var EVENTOS = [
+    {titulo:'Festa do Padroeiro', data:'', local:'Paróquia São José Operário', descricao:'Celebração em honra a São José Operário, com missa, tríduo e confraternização da comunidade.', valor:'', imagem:''},
+    {titulo:'Jantar Paroquial', data:'', local:'Salão paroquial', descricao:'Uma noite de partilha e fraternidade. A renda é revertida para as obras da paróquia.', valor:'', imagem:''},
+    {titulo:'Encontro de Famílias', data:'', local:'Paróquia São José Operário', descricao:'Tarde de oração, convivência e formação para as famílias da comunidade.', valor:'', imagem:''}
+  ];
+  var eventoAtual = null;
+  function renderEventos(){
+    document.getElementById('eventsGrid').innerHTML = EVENTOS.map(function(e, i){
+      return '<button type="button" class="news-card event-card" onclick="openEvent(' + i + ')"><div class="news-thumb">' +
+        (e.imagem ? '<img loading="lazy" src="' + esc(e.imagem) + '" alt="' + esc(e.titulo) + '" onerror="this.remove()">' : '') + '</div>' +
+        '<span class="news-badge">' + esc(e.data || 'Data a definir') + '</span><div class="news-title">' + esc(e.titulo) + '</div>' +
+        '<span class="more">Ver detalhes →</span></button>';
+    }).join('');
+  }
+  function openEvent(i){
+    var e = EVENTOS[i]; eventoAtual = e;
+    document.getElementById('evDate').textContent = e.data || 'Data a definir';
+    document.getElementById('evTitle').textContent = e.titulo;
+    document.getElementById('evDesc').textContent = e.descricao || '';
+    document.getElementById('evMeta').innerHTML = (e.local ? '<strong>Local:</strong> ' + esc(e.local) + '<br>' : '') + (e.valor ? '<strong>Valor:</strong> ' + esc(e.valor) : '');
+    backEvent();
+    document.getElementById('eventModal').style.display = 'flex';
+  }
+  function closeEvent(){ document.getElementById('eventModal').style.display = 'none'; }
+  function backEvent(){ document.getElementById('evDetails').style.display = 'block'; document.getElementById('evPay').style.display = 'none'; }
+  function showEventPay(){
+    document.getElementById('evPayInfo').textContent = eventoAtual.titulo + (eventoAtual.valor ? ' — ' + eventoAtual.valor : '');
+    document.getElementById('evWa').href = 'https://wa.me/5545999960670?text=' + encodeURIComponent('Olá! Fiz o pagamento do ingresso: ' + eventoAtual.titulo + '. Segue o comprovante.');
+    document.getElementById('evDetails').style.display = 'none';
+    document.getElementById('evPay').style.display = 'block';
+  }
+  function copyEventKey(){
+    var k = document.getElementById('evKey').textContent.trim();
+    if(navigator.clipboard){ navigator.clipboard.writeText(k).then(function(){ showToast('Chave Pix copiada!'); }); } else { showToast('Chave Pix: ' + k); }
+  }
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeEvent(); });
+
+  function fmtData(iso){ return iso ? iso.split('-').reverse().join('/') : ''; }
+  async function loadPortal(){
+    try{
+      var d = await api('/api/news');
+      var news = (d.news || []).filter(function(n){ return n.category !== 'evento'; });
+      if(news.length) renderNews(news);
+    }catch(e){}
+    try{
+      var ev = await api('/api/events');
+      if((ev.events || []).length) EVENTOS = ev.events.map(function(n){
+        return {titulo:n.title, data: fmtData(n.event_date), local:'', descricao:n.description || '', valor:'', imagem:n.image_url || ''};
+      });
+    }catch(e){}
+    renderEventos();
+    try{
+      var p = await api('/api/priests');
+      if((p.priests || []).length) renderPriests(p.priests);
+    }catch(e){}
+  }
+  function renderPriests(list){
+    document.getElementById('priestsGrid').innerHTML = list.map(function(p){
+      return '<article class="priest-card" data-tilt><div class="priest-photo">' +
+        (p.photo_url ? '<img loading="lazy" src="' + esc(p.photo_url) + '" width="800" height="800" alt="' + esc(p.name) + '" onerror="this.remove()">' : '') +
+        '<span class="glare"></span></div><div class="priest-name">' + esc(p.name) + '</div></article>';
+    }).join('');
+    if(window.bindPriests) window.bindPriests();
+  }
+
+  // ---------- Pensamento do dia ----------
+  // Só inclua frases com fonte conferida (ex.: obra "Briciole d'oro", de Marello). Sem aspas no texto.
+  var PENSAMENTOS = [
+    {text:'Cartuxos em casa e apóstolos fora de casa', ref:'Lema de São José Marello, lembrado pelo Papa Francisco em 26/08/2024'},
+    {text:'Pacientes em casa, para serem apóstolos eficazes fora de casa', ref:'São José Marello, citado por São João Paulo II em 17/02/2000'}
+  ];
+  function showThought(t){
+    document.getElementById('thoughtText').textContent = '“' + t.text + '”';
+    document.getElementById('thoughtRef').textContent = t.ref || 'São José Marello';
+  }
+  async function loadThought(){
+    var n = new Date(), day = Math.floor((n - new Date(n.getFullYear(), 0, 0)) / 864e5);
+    if(PENSAMENTOS.length) showThought(PENSAMENTOS[day % PENSAMENTOS.length]);
+    try{
+      var d = await api('/api/thoughts/today');
+      if(d.thought) showThought({text: d.thought.text, ref: d.thought.reference});
+    }catch(e){}
+  }
+
+  // ---------- Vela virtual ----------
+  // Com o servidor no ar: as velas ficam salvas no banco, aparecem para todos e somem em 24h.
+  // Sem servidor: a vela fica salva só neste aparelho por 24h (não aparece para outras pessoas).
+  var VELAS_KEY = 'velas_local', velasSig = '';
+  function candleHtml(c, isNew){
+    return '<div class="candle' + (isNew ? ' new' : '') + '" title="' + esc(c.intention || '') + '"><div class="flame"></div><div class="wax"></div><div class="who">' + esc(c.name || '') + '</div></div>';
+  }
+  function velasLocais(){
+    try{
+      var l = JSON.parse(localStorage.getItem(VELAS_KEY) || '[]').filter(function(v){ return Date.now() - v.t < 864e5; });
+      localStorage.setItem(VELAS_KEY, JSON.stringify(l));
+      return l;
+    }catch(e){ return []; }
+  }
+  function desenharVelas(list, total){
+    var wall = document.getElementById('velaWall');
+    var sig = list.map(function(c){ return (c.id || c.t) + ''; }).join(',');
+    if(sig === velasSig) return;           // nada mudou: não redesenha
+    velasSig = sig;
+    wall.innerHTML = list.length ? list.map(function(c){ return candleHtml(c); }).join('') : '<p class="vela-empty">Seja o primeiro a acender uma vela hoje.</p>';
+    document.getElementById('velaCount').textContent = total ? total + ' vela(s) acesa(s) nas últimas 24 horas.' : '';
+  }
+  async function loadCandles(){
+    try{
+      var d = await api('/api/candles');
+      desenharVelas(d.candles, d.total);
+    }catch(e){
+      var l = velasLocais().slice().reverse();
+      desenharVelas(l, l.length);
+    }
+  }
+  async function lightCandle(){
+    var c = {name: document.getElementById('velaName').value.trim(), intention: document.getElementById('velaIntention').value.trim()};
+    try{
+      await api('/api/candles', {method:'POST', body: JSON.stringify(c)});
+    }catch(e){
+      if(e.status === 429){ showToast(e.message); return; }
+      try{ var l = velasLocais(); l.push({name: c.name, intention: c.intention, t: Date.now()}); localStorage.setItem(VELAS_KEY, JSON.stringify(l)); }catch(x){}
+    }
+    document.getElementById('velaIntention').value = '';
+    await loadCandles();
+    showToast('Vela acesa. Que Deus ouça sua oração.');
+  }
+  // Atualiza sozinho a cada 30s para mostrar as velas de outras pessoas
+  setInterval(function(){ if(document.visibilityState === 'visible') loadCandles(); }, 30000);
+
+  // ---------- Área administrativa (login real) ----------
+  function showAdmin(on){
+    document.getElementById('adminLoginForm').style.display = on ? 'none' : 'block';
+    document.getElementById('adminDashboard').style.display = on ? 'block' : 'none';
+  }
+  async function handleAdminLogin(e){
+    e.preventDefault();
+    try{
+      var d = await api('/api/auth/login', {method:'POST', body: JSON.stringify({email: document.getElementById('adminEmail').value, password: document.getElementById('adminPassword').value})});
+      if(d.user.role !== 'administrativo'){ showToast('Esta conta não tem acesso administrativo.'); return; }
+      localStorage.setItem('adm_token', d.token);
+      document.getElementById('adminPassword').value = '';
+      showAdmin(true); showToast('Login efetuado.');
+    }catch(err){ showToast(err.message); }
+  }
+  function handleAdminLogout(){ localStorage.removeItem('adm_token'); showAdmin(false); closeAdminModal(); }
+  async function submitNews(){
+    var title = document.getElementById('nTitle').value.trim();
+    if(!title){ showToast('Informe o título.'); return; }
+    var desc = document.getElementById('nExcerpt').value;
+    var img = document.getElementById('nImage').value.trim();
+    var isEvent = document.getElementById('nCategory').value === 'evento';
+    try{
+      if(isEvent){
+        await api('/api/events', {method:'POST', body: JSON.stringify({
+          title: title, description: desc, event_date: document.getElementById('nDate').value || null,
+          registration_url: document.getElementById('nLink').value.trim() || null, image_url: img})});
+      } else {
+        await api('/api/news', {method:'POST', body: JSON.stringify({
+          title: title, excerpt: desc, category: 'noticia', image_url: img})});
+      }
+      ['nTitle','nExcerpt','nDate','nLink','nImage'].forEach(function(id){ document.getElementById(id).value = ''; });
+      showToast('Publicado!'); loadPortal();
+    }catch(err){ showToast(err.message); }
+  }
+  async function submitPriest(){
+    var name = document.getElementById('pName').value.trim();
+    if(!name){ showToast('Informe o nome do padre.'); return; }
+    try{
+      await api('/api/priests', {method:'POST', body: JSON.stringify({name: name, photo_url: document.getElementById('pPhoto').value.trim()})});
+      document.getElementById('pName').value = ''; document.getElementById('pPhoto').value = '';
+      showToast('Padre adicionado.'); loadPortal();
+    }catch(err){ showToast(err.message); }
+  }
+  async function submitThought(){
+    var text = document.getElementById('tText').value.trim();
+    if(!text){ showToast('Informe o texto.'); return; }
+    try{
+      await api('/api/thoughts', {method:'POST', body: JSON.stringify({text: text, reference: document.getElementById('tRef').value.trim()})});
+      document.getElementById('tText').value = ''; document.getElementById('tRef').value = '';
+      showToast('Pensamento salvo.'); loadThought();
+    }catch(err){ showToast(err.message); }
+  }
+  async function restoreAdmin(){ if(!localStorage.getItem('adm_token')) return; try{ var d = await api('/api/auth/me'); if(d.user.role === 'administrativo') showAdmin(true); }catch(e){ localStorage.removeItem('adm_token'); } }
+
+  loadPortal(); loadThought(); loadCandles(); restoreAdmin();
+
+  // ---------- Interação com o mouse (só em telas com mouse; respeita "reduzir movimento") ----------
+  (function(){
+    var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    var calm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(!fine || calm) return;
+
+    // Cards inclinam em 3D e ganham brilho seguindo o mouse
+    function tilt(el, lift){
+      el.addEventListener('mousemove', function(e){
+        var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        el.style.transition = 'box-shadow .25s ease, border-color .25s ease';
+        el.style.transform = 'perspective(700px) rotateX(' + ((0.5 - y) * 10).toFixed(2) + 'deg) rotateY(' + ((x - 0.5) * 12).toFixed(2) + 'deg) translateY(' + lift + 'px)';
+        el.style.setProperty('--gx', (x * 100) + '%'); el.style.setProperty('--gy', (y * 100) + '%');
+      });
+      el.addEventListener('mouseleave', function(){
+        el.style.transition = 'transform .45s ease, box-shadow .25s ease, border-color .25s ease';
+        el.style.transform = '';
+      });
+    }
+    window.__tilt = tilt;
+    document.querySelectorAll('[data-tilt]').forEach(function(el){ tilt(el, -6); });
+    document.getElementById('eventsGrid').addEventListener('mouseover', function(e){
+      var c = e.target.closest('.event-card'); if(c && !c._t){ c._t = 1; tilt(c, -4); }
+    });
+
+    // Imagem da igreja: luz que segue o mouse + texto com leve profundidade
+    var hero = document.querySelector('.hero-single'), txt = hero && hero.querySelector('.carousel-overlay');
+    if(hero){
+      hero.addEventListener('mousemove', function(e){
+        var r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        hero.style.setProperty('--mx', (x * 100) + '%'); hero.style.setProperty('--my', (y * 100) + '%');
+        if(txt) txt.style.transform = 'translate(' + ((0.5 - x) * 14).toFixed(1) + 'px,' + ((0.5 - y) * 10).toFixed(1) + 'px)';
+      });
+      hero.addEventListener('mouseleave', function(){ if(txt) txt.style.transform = ''; });
+    }
+
+  })();
+
+  // ---------- Carta do padre: janela com zoom e efeito de carta ----------
+  (function(){
+    var modal = document.getElementById('priestModal'), card = document.getElementById('bigCard');
+    var calm = window.matchMedia('(prefers-reduced-motion:reduce)').matches, last = null;
+
+    window.openPriest = function(photo){
+      var img = photo.querySelector('img'); if(!img) return;
+      last = photo;
+      document.getElementById('bigImg').src = img.src;
+      document.getElementById('bigImg').alt = img.alt;
+      document.getElementById('bigName').textContent = img.alt;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      document.getElementById('pmClose').focus();
+    };
+    window.closePriest = function(){
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      card.style.transform = '';
+      if(last) last.focus();
+    };
+
+    window.bindPriests = function(){
+      document.querySelectorAll('.priest-photo').forEach(function(p){
+        var img = p.querySelector('img'); if(!img || p._b) return; p._b = 1;
+        p.tabIndex = 0; p.setAttribute('role', 'button'); p.setAttribute('aria-label', 'Ampliar a foto de ' + img.alt);
+        p.addEventListener('click', function(){ openPriest(p); });
+        p.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openPriest(p); } });
+      });
+      if(window.__tilt) document.querySelectorAll('[data-tilt]').forEach(function(el){ if(!el._t){ el._t = 1; window.__tilt(el, -6); } });
+    };
+    window.bindPriests();
+
+    // A carta acompanha o mouse (ou o dedo): inclina, brilha e muda o reflexo
+    function move(e){
+      if(calm) return;
+      var r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      x = Math.max(0, Math.min(1, x)); y = Math.max(0, Math.min(1, y));
+      card.style.animation = 'none';
+      card.style.transition = 'none';
+      card.style.transform = 'rotateX(' + ((0.5 - y) * 26).toFixed(1) + 'deg) rotateY(' + ((x - 0.5) * 30).toFixed(1) + 'deg) scale(1.03)';
+      card.style.setProperty('--gx', (x * 100) + '%'); card.style.setProperty('--gy', (y * 100) + '%');
+      card.style.setProperty('--sx', (x * 100) + '%'); card.style.setProperty('--sy', (y * 100) + '%');
+    }
+    function rest(){ card.style.transition = 'transform .5s ease'; card.style.transform = ''; }
+    modal.addEventListener('pointermove', move);
+    card.addEventListener('pointerleave', rest);
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && modal.style.display !== 'none') closePriest(); });
+  })();
+</script>
+</body>
+</html>
