@@ -20,7 +20,8 @@ app.use('/api/thoughts', require('./routes/thoughts'));
 // Serve o site (somente index.html e imagens — o código do backend nunca fica exposto)
 const root = path.join(__dirname, '..', '..');
 app.use('/imagens', express.static(path.join(root, 'imagens')));
-app.get('/', (req, res) => res.sendFile(path.join(root, 'index.html')));
+app.get(['/', '/index.html'], (req, res) => res.sendFile(path.join(root, 'index.html')));
+app.get(['/noticia', '/noticia.html'], (req, res) => res.sendFile(path.join(root, 'noticia.html')));
 
 const PORT = process.env.PORT || 3000;
 initDb()

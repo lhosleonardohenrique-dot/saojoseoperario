@@ -39,8 +39,10 @@ CREATE TABLE IF NOT EXISTS news (
   event_date DATE,
   registration_url TEXT,
   published_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  created_by INTEGER REFERENCES users(id)
+  created_by INTEGER REFERENCES users(id),
+  permanent BOOLEAN NOT NULL DEFAULT false   -- true = nunca é apagada pela limpeza de 2 meses
 );
+ALTER TABLE news ADD COLUMN IF NOT EXISTS permanent BOOLEAN NOT NULL DEFAULT false;
 
 -- Eventos: título + data + descrição
 CREATE TABLE IF NOT EXISTS events (

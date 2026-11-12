@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notícia — Paróquia São José Operário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EDDD; --paper-card:#EBE0C8; --wood-dark:#33231A; --wood:#6E4429;
+    --brass:#B8863B; --brass-light:#D9AE68; --ink:#2B2019; --ink-soft:#5A4B3E;
+    --line:rgba(51,35,26,0.16); --shadow:0 10px 30px rgba(51,35,26,0.12);
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Karla',sans-serif; -webkit-font-smoothing:antialiased; display:flex; flex-direction:column; min-height:100vh; }
+  h1{ font-family:'Fraunces',serif; color:var(--wood-dark); margin:0; letter-spacing:-0.01em; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 28px; }
+
+  header{ background:var(--paper); border-bottom:1px solid var(--line); box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+  .bar{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .mark{ width:44px; height:44px; border-radius:6px; overflow:hidden; background:var(--paper-card); border:1px solid var(--line); }
+  .mark img{ width:100%; height:100%; object-fit:cover; }
+  .brand .name{ font-family:'Fraunces',serif; font-size:19px; line-height:1.15; color:var(--wood-dark); font-weight:600; }
+  .brand .name small{ display:block; font-family:'Karla',sans-serif; font-size:11px; font-weight:600; letter-spacing:.14em; color:var(--brass); text-transform:uppercase; }
+  .back{ font-size:14px; font-weight:700; color:var(--wood-dark); border-bottom:2px solid var(--brass); padding-bottom:2px; }
+  .back:hover{ color:var(--brass); }
+
+  main{ flex:1; padding:48px 0 72px; }
+  .article{ display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:start; }
+  .article-img{
+    position:sticky; top:24px; width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden;
+    background:linear-gradient(135deg,var(--wood),var(--wood-dark)); border:1px solid var(--line); box-shadow:var(--shadow);
+  }
+  .article-img img{ width:100%; height:100%; object-fit:cover; }
+  .news-date{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--brass); font-weight:600; display:block; margin-bottom:10px; }
+  h1{ font-size:clamp(26px,3.4vw,40px); font-weight:700; line-height:1.2; }
+  .lead{ margin:18px 0 0; font-size:17px; line-height:1.65; color:var(--wood-dark); font-weight:500; }
+  .body{ margin-top:22px; padding-top:22px; border-top:1px solid var(--line); font-size:15.5px; line-height:1.8; color:var(--ink-soft); }
+  .body p{ margin:0 0 14px; }
+  .placeholder{ font-style:italic; opacity:.75; }
+  .state{ text-align:center; padding:60px 0; color:var(--ink-soft); }
+  .btn{ display:inline-flex; align-items:center; padding:13px 24px; border-radius:4px; font-weight:700; font-size:14px; background:var(--wood-dark); color:var(--paper); margin-top:28px; transition:.2s; }
+  .btn:hover{ background:var(--wood); }
+
+  footer{ background:var(--wood-dark); color:rgba(244,237,221,0.7); padding:22px 0; font-size:12.5px; }
+  footer .wrap{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+
+  @media (max-width:820px){
+    .article{ grid-template-columns:1fr; gap:28px; }
+    .article-img{ position:static; }
+    .wrap{ padding:0 18px; }
+    main{ padding:28px 0 48px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">
+      <div class="mark"><img src="imagens/logo.jfif" alt="Logo da Paróquia" onerror="this.remove()"></div>
+      <div class="name">Paróquia São José Operário<small>Cascavel · Paraná</small></div>
+    </a>
+    <a class="back" href="index.html#noticias">← Voltar às notícias</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" id="content"><p class="state">Carregando notícia…</p></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Paróquia São José Operário — Cascavel, PR</span>
+    <span>Rua Manaus, 4344 · Recanto Tropical</span>
+  </div>
+</footer>
+
+<script>
+  const API_BASE_URL = window.location.origin.includes('localhost') ? 'http://localhost:3000' : '';
+  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function fail(msg){
+    document.getElementById('content').innerHTML = '<div class="state"><p>' + esc(msg) + '</p><a class="btn" href="index.html#noticias">Ver todas as notícias</a></div>';
+  }
+
+  (async function(){
+    var id = new URLSearchParams(location.search).get('id');
+    if(!/^\d+$/.test(id || '')) return fail('Notícia não encontrada.');
+    var n;
+    try{
+      var r = await fetch(API_BASE_URL + '/api/news/' + id);
+      var d = await r.json().catch(function(){ return {}; });
+      if(!r.ok) return fail(d.error || 'Não foi possível carregar a notícia.');
+      n = d.news;
+    }catch(e){ return fail('Não foi possível carregar a notícia. Tente novamente.'); }
+
+    document.title = n.title + ' — Paróquia São José Operário';
+    var date = new Date(n.published_at).toLocaleDateString('pt-BR');
+
+    // Texto completo escrito na área administrativa; sem texto, mostra placeholders
+    var text = (n.content || '').trim();
+    var body = text
+      ? text.split(/\n{2,}/).map(function(p){ return '<p>' + esc(p).replace(/\n/g, '<br>') + '</p>'; }).join('')
+      : '<p class="placeholder">[Descrição completa da notícia — será escrita pela secretaria na Área Administrativa.]</p>' +
+        '<p class="placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>' +
+        '<p class="placeholder">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>';
+
+    document.getElementById('content').innerHTML =
+      '<article class="article">' +
+        '<div class="article-img">' + (n.image_url ? '<img src="' + esc(n.image_url) + '" alt="' + esc(n.title) + '" onerror="this.remove()">' : '') + '</div>' +
+        '<div>' +
+          '<span class="news-date">' + date + '</span>' +
+          '<h1>' + esc(n.title) + '</h1>' +
+          (n.excerpt ? '<p class="lead">' + esc(n.excerpt) + '</p>' : '') +
+          '<div class="body">' + body + '</div>' +
+          '<a class="btn" href="index.html#noticias">← Voltar às notícias</a>' +
+        '</div>' +
+      '</article>';
+  })();
+</script>
+</body>
+</html>
