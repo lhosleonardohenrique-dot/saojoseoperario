@@ -21,6 +21,7 @@ app.use('/api/thoughts', require('./routes/thoughts'));
 const root = path.join(__dirname, '..', '..');
 app.use('/imagens', express.static(path.join(root, 'imagens')));
 app.get('/', (req, res) => res.sendFile(path.join(root, 'index.html')));
+app.get(['/noticia', '/noticia.html'], (req, res) => res.sendFile(path.join(root, 'noticia.html')));
 
 const PORT = process.env.PORT || 3000;
 initDb()

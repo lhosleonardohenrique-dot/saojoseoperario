@@ -264,6 +264,7 @@
     background:var(--paper); border:1px solid var(--line); border-radius:6px; overflow:hidden;
     transition:box-shadow .18s, transform .18s, border-color .18s; cursor:pointer;
   }
+  a.news-card{ display:block; color:inherit; }
   .news-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--brass); }
   .news-thumb{ height:130px; background:linear-gradient(135deg, var(--wood) 0%, var(--wood-deep) 100%); position:relative; overflow:hidden; }
   .news-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .4s ease; }
@@ -362,6 +363,16 @@
   .form-group input, .admin-input{
     padding:10px 14px; border:1px solid var(--line); border-radius:4px; font-size:14px; background:#fff;
   }
+
+  /* ---------- Gerenciar publicações (admin) ---------- */
+  .admin-manage h4{ font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--wood-dark); margin:16px 0 8px; }
+  .admin-item{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--line); }
+  .admin-item-txt{ display:flex; flex-direction:column; min-width:0; font-size:13.5px; }
+  .admin-item-txt strong{ font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .admin-item-txt span{ font-size:12px; color:var(--ink-soft); }
+  .btn-remove{ flex-shrink:0; background:none; border:1px solid #9b2c2c; color:#9b2c2c; border-radius:4px; padding:5px 10px; font-size:12px; font-weight:600; cursor:pointer; }
+  .btn-remove:hover{ background:#9b2c2c; color:#fff; }
+  .admin-empty{ font-size:12.5px; color:var(--ink-soft); margin:0; }
 
   /* ---------- Footer ---------- */
   footer{ background:var(--wood-dark); color:rgba(244,237,221,0.8); padding:48px 0 24px; }
@@ -625,27 +636,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
         <h2>Últimas notícias</h2>
       </div>
     </div>
-    <div class="news-grid" id="newsGrid">
-      <div class="news-card">
-        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/visita.png" alt="Visita do Provincial" onerror="this.classList.add('broken')"></div>
-        <span class="news-date">06 / 05 / 2026</span>
-        <div class="news-title">Visita do provincial dos Oblatos de São José Marello</div>
-      </div>
-      <div class="news-card">
-        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/triduo.png" alt="Tríduo São José" onerror="this.classList.add('broken')"></div>
-        <span class="news-date">28 / 04 / 2026</span>
-        <div class="news-title">Início do tríduo em honra a São José Operário</div>
-      </div>
-      <div class="news-card">
-        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/sabado.png" alt="Sábado Santo" onerror="this.classList.add('broken')"></div>
-        <span class="news-date">04 / 04 / 2026</span>
-        <div class="news-title">Celebrações do Sábado Santo na Paróquia</div>
-      </div>
-      <div class="news-card">
-        <div class="news-thumb"><img loading="lazy" decoding="async" src="imagens/ramos.png" alt="Domingo de Ramos" onerror="this.classList.add('broken')"></div>
-        <span class="news-date">29 / 03 / 2026</span>
-        <div class="news-title">Missa e Procissão no Domingo de Ramos</div>
-      </div>
+    <div class="news-grid" id="newsGrid"><p class="admin-empty">Carregando notícias…</p>
     </div>
   </div>
 </section>
@@ -663,23 +654,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
 <section class="section" id="padres">
   <div class="wrap">
     <div class="section-head"><div><span class="section-tag">Nosso clero</span><h2>Padres</h2></div></div>
-    <div class="priests-grid" id="priestsGrid">
-      <article class="priest-card" data-tilt>
-        <div class="priest-photo"><img loading="lazy" src="imagens/orestes.png" width="800" height="800" alt="Pe. Orestes Monteiro de Melo" onerror="this.remove()"><span class="glare"></span></div>
-        <div class="priest-name">Pe. Orestes Monteiro de Melo</div>
-      </article>
-      <article class="priest-card" data-tilt>
-        <div class="priest-photo"><img loading="lazy" src="imagens/giovanni.png" width="800" height="800" alt="Pe. Giovanni Battista Erittu" onerror="this.remove()"><span class="glare"></span></div>
-        <div class="priest-name">Pe. Giovanni Battista Erittu</div>
-      </article>
-      <article class="priest-card" data-tilt>
-        <div class="priest-photo"><img loading="lazy" src="imagens/john.png" width="800" height="800" alt="Pe. John Mark Sebuc Comia" onerror="this.remove()"><span class="glare"></span></div>
-        <div class="priest-name">Pe. John Mark Sebuc Comia</div>
-      </article>
-      <article class="priest-card" data-tilt>
-        <div class="priest-photo"><img loading="lazy" src="imagens/chinaka.png" width="800" height="800" alt="Pe. Chinaka Justin Mbaeri" onerror="this.remove()"><span class="glare"></span></div>
-        <div class="priest-name">Pe. Chinaka Justin Mbaeri</div>
-      </article>
+    <div class="priests-grid" id="priestsGrid"><p class="admin-empty">Carregando…</p>
     </div>
   </div>
 </section>
@@ -838,10 +813,12 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
         <select id="nCategory" class="admin-input"><option value="noticia">Notícia</option><option value="evento">Evento</option></select></div>
       <div class="form-group"><input type="text" id="nTitle" placeholder="Título" class="admin-input" maxlength="140"></div>
       <div class="form-group"><textarea id="nExcerpt" placeholder="Descrição" class="admin-input" style="height:70px; font-family:inherit;"></textarea></div>
+      <div class="form-group"><label>Texto completo (página da notícia)</label><textarea id="nContent" placeholder="Texto que aparece ao abrir a notícia (só para notícias)" class="admin-input" style="height:110px; font-family:inherit;"></textarea></div>
       <div class="form-group"><label>Data do evento (se for evento)</label><input type="date" id="nDate" class="admin-input"></div>
       <div class="form-group"><input type="url" id="nLink" placeholder="Link de inscrição (https://...)" class="admin-input"></div>
       <div class="form-group"><input type="text" id="nImage" placeholder="Imagem (ex: imagens/evento.jpg)" class="admin-input"></div>
-      <button type="button" class="btn btn-primary" onclick="submitNews()" style="width:100%; justify-content:center;">Publicar</button>
+      <button type="button" class="btn btn-primary" id="nSubmit" onclick="submitNews()" style="width:100%; justify-content:center;">Publicar</button>
+      <button type="button" class="btn btn-ghost" id="nCancel" onclick="cancelEditNews()" style="display:none; width:100%; justify-content:center; margin-top:8px;">Cancelar edição</button>
       <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
       <div class="form-group"><label>Novo padre</label>
         <input type="text" id="pName" placeholder="Nome (ex: Pe. Fulano de Tal)" class="admin-input" maxlength="120">
@@ -852,6 +829,9 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
         <textarea id="tText" placeholder="Texto (confira a fonte antes de publicar)" class="admin-input" style="height:70px; font-family:inherit;"></textarea>
         <input type="text" id="tRef" placeholder="Fonte (opcional)" class="admin-input"></div>
       <button type="button" class="btn btn-ghost" onclick="submitThought()" style="width:100%; justify-content:center;">Salvar pensamento</button>
+      <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
+      <h3 style="font-size:16px;">Gerenciar publicados</h3>
+      <div class="admin-manage" id="adminManage"></div>
       <button class="btn btn-ghost" onclick="handleAdminLogout()" style="width:100%; justify-content:center; margin-top:12px;">Sair</button>
     </div>
   </div>
@@ -943,22 +923,21 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
 
   // ---------- Notícias ----------
   function renderNews(list){
-    document.getElementById('newsGrid').innerHTML = list.slice(0, 8).map(function(n){
+    var grid = document.getElementById('newsGrid');
+    if(!list.length){ grid.innerHTML = '<p class="admin-empty">Nenhuma notícia publicada.</p>'; return; }
+    grid.innerHTML = list.slice(0, 8).map(function(n){
       var date = new Date(n.published_at).toLocaleDateString('pt-BR');
-      return '<div class="news-card"><div class="news-thumb">' + (n.image_url ? '<img loading="lazy" src="' + esc(n.image_url) + '" alt="' + esc(n.title) + '" onerror="this.remove()">' : '') + '</div>' +
+      return '<a class="news-card" href="noticia.html?id=' + encodeURIComponent(n.id) + '"><div class="news-thumb">' + (n.image_url ? '<img loading="lazy" src="' + esc(n.image_url) + '" alt="' + esc(n.title) + '" onerror="this.remove()">' : '') + '</div>' +
         '<span class="news-date">' + date + '</span><div class="news-title">' + esc(n.title) + '</div>' +
-        (n.excerpt ? '<p style="margin:0 16px 14px; font-size:13px; line-height:1.5; color:var(--ink-soft);">' + esc(n.excerpt) + '</p>' : '') + '</div>';
+        (n.excerpt ? '<p style="margin:0 16px 14px; font-size:13px; line-height:1.5; color:var(--ink-soft);">' + esc(n.excerpt) + '</p>' : '') + '</a>';
     }).join('');
   }
 
-  // ---------- Eventos (edite esta lista; com o backend no ar, os eventos cadastrados no painel substituem estes) ----------
-  var EVENTOS = [
-    {titulo:'Festa do Padroeiro', data:'', local:'Paróquia São José Operário', descricao:'Celebração em honra a São José Operário, com missa, tríduo e confraternização da comunidade.', valor:'', imagem:''},
-    {titulo:'Jantar Paroquial', data:'', local:'Salão paroquial', descricao:'Uma noite de partilha e fraternidade. A renda é revertida para as obras da paróquia.', valor:'', imagem:''},
-    {titulo:'Encontro de Famílias', data:'', local:'Paróquia São José Operário', descricao:'Tarde de oração, convivência e formação para as famílias da comunidade.', valor:'', imagem:''}
-  ];
+  // ---------- Eventos (vêm do banco de dados via /api/events) ----------
+  var EVENTOS = [];
   var eventoAtual = null;
   function renderEventos(){
+    if(!EVENTOS.length){ document.getElementById('eventsGrid').innerHTML = '<p class="admin-empty">Nenhum evento no momento.</p>'; return; }
     document.getElementById('eventsGrid').innerHTML = EVENTOS.map(function(e, i){
       return '<button type="button" class="news-card event-card" onclick="openEvent(' + i + ')"><div class="news-thumb">' +
         (e.imagem ? '<img loading="lazy" src="' + esc(e.imagem) + '" alt="' + esc(e.titulo) + '" onerror="this.remove()">' : '') + '</div>' +
@@ -990,24 +969,59 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeEvent(); });
 
   function fmtData(iso){ return iso ? iso.split('-').reverse().join('/') : ''; }
+  var ADMIN_DATA = {news:[], events:[], priests:[]};
   async function loadPortal(){
     try{
       var d = await api('/api/news');
+      ADMIN_DATA.news = d.news || [];
       var news = (d.news || []).filter(function(n){ return n.category !== 'evento'; });
-      if(news.length) renderNews(news);
+      renderNews(news);
     }catch(e){}
     try{
       var ev = await api('/api/events');
-      if((ev.events || []).length) EVENTOS = ev.events.map(function(n){
-        return {titulo:n.title, data: fmtData(n.event_date), local:'', descricao:n.description || '', valor:'', imagem:n.image_url || ''};
+      ADMIN_DATA.events = ev.events || [];
+      EVENTOS = (ev.events || []).map(function(n){
+        return {id:n.id, titulo:n.title, data: fmtData(n.event_date), local:'', descricao:n.description || '', valor:'', imagem:n.image_url || ''};
       });
     }catch(e){}
     renderEventos();
     try{
       var p = await api('/api/priests');
-      if((p.priests || []).length) renderPriests(p.priests);
+      ADMIN_DATA.priests = p.priests || [];
+      renderPriests(p.priests || []);
     }catch(e){}
+    renderAdminLists();
   }
+
+  // ---------- Gerenciar publicados (remover notícia, evento ou padre) ----------
+  function adminRow(kind, id, title, sub){
+    return '<div class="admin-item"><div class="admin-item-txt"><strong>' + esc(title) + '</strong>' + (sub ? '<span>' + esc(sub) + '</span>' : '') + '</div>' +
+      (kind === 'news' ? '<button type="button" class="btn-remove" style="border-color:var(--wood); color:var(--wood);" onclick="editNews(' + Number(id) + ')">Editar</button>' : '') +
+      '<button type="button" class="btn-remove" data-kind="' + kind + '" data-id="' + esc(id) + '" data-label="' + esc(title) + '">Remover</button></div>';
+  }
+  function renderAdminLists(){
+    var box = document.getElementById('adminManage'); if(!box) return;
+    function section(titulo, rows){ return '<h4>' + titulo + '</h4>' + (rows.length ? rows.join('') : '<p class="admin-empty">Nada publicado.</p>'); }
+    box.innerHTML =
+      section('Notícias', ADMIN_DATA.news.map(function(n){ return adminRow('news', n.id, n.title, new Date(n.published_at).toLocaleDateString('pt-BR')); })) +
+      section('Eventos', ADMIN_DATA.events.map(function(e){ return adminRow('events', e.id, e.title, fmtData(e.event_date) || 'Data a definir'); })) +
+      section('Padres', ADMIN_DATA.priests.map(function(p){ return adminRow('priests', p.id, p.name, ''); }));
+  }
+  async function removeItem(kind, id, label){
+    if(!confirm('Remover "' + label + '"? Essa ação não pode ser desfeita.')) return;
+    try{
+      await api('/api/' + kind + '/' + encodeURIComponent(id), {method:'DELETE'});
+      showToast('Removido.');
+      await loadPortal();
+    }catch(err){
+      if(err.status === 401){ localStorage.removeItem('adm_token'); showAdmin(false); showToast('Sessão expirada. Entre novamente.'); return; }
+      showToast(err.message);
+    }
+  }
+  document.getElementById('adminManage').addEventListener('click', function(e){
+    var b = e.target.closest('.btn-remove'); if(!b) return;
+    removeItem(b.dataset.kind, b.dataset.id, b.dataset.label);
+  });
   function renderPriests(list){
     document.getElementById('priestsGrid').innerHTML = list.map(function(p){
       return '<article class="priest-card" data-tilt><div class="priest-photo">' +
@@ -1098,22 +1112,49 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
     }catch(err){ showToast(err.message); }
   }
   function handleAdminLogout(){ localStorage.removeItem('adm_token'); showAdmin(false); closeAdminModal(); }
+  var editingNewsId = null;
+  function cancelEditNews(){
+    editingNewsId = null;
+    ['nTitle','nExcerpt','nContent','nDate','nLink','nImage'].forEach(function(id){ document.getElementById(id).value = ''; });
+    document.getElementById('nCategory').disabled = false;
+    document.getElementById('nSubmit').textContent = 'Publicar';
+    document.getElementById('nCancel').style.display = 'none';
+  }
+  async function editNews(id){
+    try{
+      var d = await api('/api/news/' + encodeURIComponent(id)), n = d.news;
+      editingNewsId = n.id;
+      document.getElementById('nCategory').value = 'noticia'; document.getElementById('nCategory').disabled = true;
+      document.getElementById('nTitle').value = n.title || '';
+      document.getElementById('nExcerpt').value = n.excerpt || '';
+      document.getElementById('nContent').value = n.content || '';
+      document.getElementById('nImage').value = n.image_url || '';
+      document.getElementById('nSubmit').textContent = 'Salvar alterações';
+      document.getElementById('nCancel').style.display = 'flex';
+      document.getElementById('nTitle').scrollIntoView({behavior:'smooth', block:'center'});
+    }catch(err){ showToast(err.message); }
+  }
   async function submitNews(){
     var title = document.getElementById('nTitle').value.trim();
     if(!title){ showToast('Informe o título.'); return; }
     var desc = document.getElementById('nExcerpt').value;
+    var content = document.getElementById('nContent').value;
     var img = document.getElementById('nImage').value.trim();
     var isEvent = document.getElementById('nCategory').value === 'evento';
     try{
+      if(editingNewsId){
+        await api('/api/news/' + editingNewsId, {method:'PUT', body: JSON.stringify({title: title, excerpt: desc, content: content, image_url: img})});
+        cancelEditNews(); showToast('Notícia atualizada!'); loadPortal(); return;
+      }
       if(isEvent){
         await api('/api/events', {method:'POST', body: JSON.stringify({
           title: title, description: desc, event_date: document.getElementById('nDate').value || null,
           registration_url: document.getElementById('nLink').value.trim() || null, image_url: img})});
       } else {
         await api('/api/news', {method:'POST', body: JSON.stringify({
-          title: title, excerpt: desc, category: 'noticia', image_url: img})});
+          title: title, excerpt: desc, content: content, category: 'noticia', image_url: img})});
       }
-      ['nTitle','nExcerpt','nDate','nLink','nImage'].forEach(function(id){ document.getElementById(id).value = ''; });
+      cancelEditNews();
       showToast('Publicado!'); loadPortal();
     }catch(err){ showToast(err.message); }
   }

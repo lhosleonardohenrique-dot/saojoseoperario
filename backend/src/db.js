@@ -56,6 +56,7 @@ async function initDb() {
       sort_order INTEGER NOT NULL DEFAULT 0,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+    ALTER TABLE news ADD COLUMN IF NOT EXISTS permanent BOOLEAN NOT NULL DEFAULT false;
     CREATE INDEX IF NOT EXISTS candles_created_at_idx ON candles (created_at DESC);
     CREATE TABLE IF NOT EXISTS thoughts (
       id SERIAL PRIMARY KEY,
@@ -85,7 +86,7 @@ async function initDb() {
 async function cleanup() {
   const n = await query(
     `DELETE FROM news WHERE published_at < now() - interval '2 months'
-       AND (event_date IS NULL OR event_date < CURRENT_DATE)`
+       AND NOT permanent AND (event_date IS NULL OR event_date < CURRENT_DATE)`
   );
   await query(`DELETE FROM candles WHERE created_at < now() - interval '48 hours'`);
   if (n.rowCount) console.log(`Limpeza: ${n.rowCount} notícia(s) antiga(s) removida(s).`);
