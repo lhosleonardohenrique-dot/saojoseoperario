@@ -65,7 +65,7 @@
       <div class="mark"><img src="imagens/logo.jfif" alt="Logo da Paróquia" onerror="this.remove()"></div>
       <div class="name">Paróquia São José Operário<small>Cascavel · Paraná</small></div>
     </a>
-    <a class="back" href="index.html#noticias">← Voltar às notícias</a>
+    <a class="back" href="/#noticias">← Voltar às notícias</a>
   </div>
 </header>
 
@@ -84,7 +84,7 @@
   const API_BASE_URL = window.location.origin.includes('localhost') ? 'http://localhost:3000' : '';
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function fail(msg){
-    document.getElementById('content').innerHTML = '<div class="state"><p>' + esc(msg) + '</p><a class="btn" href="index.html#noticias">Ver todas as notícias</a></div>';
+    document.getElementById('content').innerHTML = '<div class="state"><p>' + esc(msg) + '</p><a class="btn" href="/#noticias">Ver todas as notícias</a></div>';
   }
 
   (async function(){
@@ -117,7 +117,7 @@
           '<h1>' + esc(n.title) + '</h1>' +
           (n.excerpt ? '<p class="lead">' + esc(n.excerpt) + '</p>' : '') +
           '<div class="body">' + body + '</div>' +
-          '<a class="btn" href="index.html#noticias">← Voltar às notícias</a>' +
+          '<a class="btn" href="/#noticias">← Voltar às notícias</a>' +
         '</div>' +
       '</article>';
   })();
