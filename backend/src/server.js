@@ -9,7 +9,7 @@ app.set('trust proxy', 1);
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/health', (req, res) => res.json({ status: 'ok', paroquia: 'São José Operário' }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', paroquia: 'São José Operário', filtro_velas: { lista: true, ia: require('./moderation').aiEnabled() } }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/events', require('./routes/events'));

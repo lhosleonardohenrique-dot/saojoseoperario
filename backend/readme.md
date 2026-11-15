@@ -24,7 +24,7 @@ O banco é **privado**: só o servidor acessa, pela senha da connection string.
 Na Área Administrativa o botão "Escolher imagem" abre o explorador de arquivos do computador; a imagem é reduzida no navegador e salva **no banco** (tabela `images`), pois o disco do Render é temporário. Rotas: `POST /api/uploads` (administrativo, corpo = bytes da imagem) e `GET /api/images/:id` (público). Aceita PNG, JPG, WEBP e GIF (máx. 6 MB).
 
 ## Moderação das velas
-`src/moderation.js`: lista de palavras (edite `BLOCKED`) + moderação da OpenAI quando a variável `OPENAI_API_KEY` existe. Se a OpenAI falhar, a vela é aceita e o erro vai para o log. Nunca coloque a chave no código nem no `.env.example`.
+`src/moderation.js`: lista de palavras (edite `BLOCKED`) + modelo de IA da OpenAI (`gpt-4o-mini`, permissão *Chat completions*) que entende duplo sentido e nomes de brincadeira; se ele falhar, tenta a moderação padrão (*Moderations*). Se tudo falhar, a vela é aceita e o erro vai para o log. `GET /api/health` mostra se a IA está ativa (`filtro_velas.ia`). Nunca coloque a chave no código nem no `.env.example`.
 
 ## Limpeza automática
 A cada 6h (e ao iniciar) o servidor apaga notícias com mais de 2 meses (eventos futuros ficam) e velas com mais de 48h.
