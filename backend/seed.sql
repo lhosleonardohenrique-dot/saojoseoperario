@@ -39,3 +39,10 @@ FROM (VALUES
   ('Pe. Chinaka Justin Mbaeri',    'imagens/chinaka.png',  3)
 ) AS v(name, photo_url, ord)
 WHERE NOT EXISTS (SELECT 1 FROM priests p WHERE p.name = v.name);
+
+-- ---------- PASTORAIS ----------
+-- A tabela "pastorais" é criada pelo servidor (ou pelo schema.sql). Cadastre pela Área Administrativa
+-- ou descomente e ajuste o exemplo abaixo:
+-- INSERT INTO pastorais (name, logo_url, description, sort_order)
+-- SELECT 'Pastoral da Juventude', 'imagens/pastoral-juventude.png', 'Breve descrição.', 0
+-- WHERE NOT EXISTS (SELECT 1 FROM pastorais WHERE name = 'Pastoral da Juventude');

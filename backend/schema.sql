@@ -28,6 +28,16 @@ CREATE TABLE IF NOT EXISTS priests (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Pastorais: logo + nome + descrição
+CREATE TABLE IF NOT EXISTS pastorais (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  logo_url TEXT,
+  description TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 -- Notícias: título + foto + descrição (excerpt)
 CREATE TABLE IF NOT EXISTS news (
   id SERIAL PRIMARY KEY,

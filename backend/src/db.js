@@ -49,6 +49,14 @@ async function initDb() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       created_by INTEGER REFERENCES users(id)
     );
+    CREATE TABLE IF NOT EXISTS pastorais (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      logo_url TEXT,
+      description TEXT,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
     CREATE TABLE IF NOT EXISTS priests (
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,

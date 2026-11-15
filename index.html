@@ -422,7 +422,18 @@ h1,h2,h3,.navlinks a,.priest-name,.news-title{ -webkit-text-stroke:.35px current
 .hero-panel,.padroeiro,footer{ text-shadow:0 1px 2px rgba(0,0,0,.45); }
 img{ max-width:100%; height:auto; }
 
-/* ===== Pastorais ===== */
+/* ===== Pastorais (cards com logo + nome ao lado) ===== */
+.pastorais-list{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+a.pastoral-item{ display:flex; align-items:center; gap:16px; padding:14px; background:var(--paper-card); border:1px solid var(--line); border-radius:8px; transition:transform .18s, box-shadow .18s, border-color .18s; }
+a.pastoral-item:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--brass); }
+.pastoral-logo{ flex:none; width:72px; height:72px; border-radius:50%; overflow:hidden; background:var(--wood-dark); border:2px solid var(--brass); display:flex; align-items:center; justify-content:center; color:var(--brass-light); font-family:'Fraunces',serif; font-size:26px; font-weight:700; }
+.pastoral-logo img{ width:100%; height:100%; object-fit:cover; }
+.pastoral-nome{ font-family:'Fraunces',serif; font-weight:600; font-size:16.5px; line-height:1.3; color:var(--wood-dark); }
+.pastoral-nome small{ display:block; margin-top:4px; font-family:'Karla',sans-serif; font-size:12px; font-weight:700; color:var(--brass); }
+@media (max-width:980px){ .pastorais-list{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px){ .pastorais-list{ grid-template-columns:1fr; } }
+
+/* ===== Pastorais (antigo) ===== */
 .pastorais-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; }
 .pastoral-card{ text-align:left; padding:0; overflow:hidden; display:flex; flex-direction:column; cursor:default; }
 .pastoral-card .p-img{ height:150px; background:var(--wood); position:relative; display:flex; align-items:center; justify-content:center; color:#D9AE68; font-size:34px; }
@@ -551,6 +562,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
       <a href="#noticias" onclick="closeMenu()">Notícias</a>
       <a href="#eventos" onclick="closeMenu()">Eventos</a>
       <a href="#padres" onclick="closeMenu()">Padres</a>
+      <a href="#pastorais" onclick="closeMenu()">Pastorais</a>
       <a href="#padroeiro" onclick="closeMenu()">Padroeiro</a>
       <a href="#vela" onclick="closeMenu()">Vela virtual</a>
       <a href="#dizimo" onclick="closeMenu()">Dízimo</a>
@@ -656,6 +668,14 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
     <div class="section-head"><div><span class="section-tag">Nosso clero</span><h2>Padres</h2></div></div>
     <div class="priests-grid" id="priestsGrid"><p class="admin-empty">Carregando…</p>
     </div>
+  </div>
+</section>
+
+<!-- PASTORAIS -->
+<section class="section" id="pastorais">
+  <div class="wrap">
+    <div class="section-head"><div><span class="section-tag">Participe da comunidade</span><h2>Pastorais</h2></div></div>
+    <div class="pastorais-list" id="pastoraisGrid"><p class="admin-empty">Carregando…</p></div>
   </div>
 </section>
 
@@ -808,7 +828,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
     </div>
     <div id="adminDashboard" style="display:none;">
       <h3>Painel da Secretaria</h3>
-      <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Publique notícias, eventos e pensamentos do dia.</p>
+      <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Publique notícias, eventos, pastorais e pensamentos do dia.</p>
       <div class="form-group"><label>Tipo</label>
         <select id="nCategory" class="admin-input"><option value="noticia">Notícia</option><option value="evento">Evento</option></select></div>
       <div class="form-group"><input type="text" id="nTitle" placeholder="Título" class="admin-input" maxlength="140"></div>
@@ -824,6 +844,13 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
         <input type="text" id="pName" placeholder="Nome (ex: Pe. Fulano de Tal)" class="admin-input" maxlength="120">
         <input type="text" id="pPhoto" placeholder="Foto (ex: imagens/fulano.png ou https://...)" class="admin-input"></div>
       <button type="button" class="btn btn-ghost" onclick="submitPriest()" style="width:100%; justify-content:center;">Adicionar padre</button>
+      <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
+      <div class="form-group"><label id="paLabel">Nova pastoral</label>
+        <input type="text" id="paName" placeholder="Nome da pastoral" class="admin-input" maxlength="120">
+        <input type="text" id="paLogo" placeholder="Logo (ex: imagens/pastoral.png ou https://...)" class="admin-input">
+        <textarea id="paDesc" placeholder="Breve descrição (aparece na página da pastoral)" class="admin-input" style="height:90px; font-family:inherit;"></textarea></div>
+      <button type="button" class="btn btn-ghost" id="paSubmit" onclick="submitPastoral()" style="width:100%; justify-content:center;">Adicionar pastoral</button>
+      <button type="button" class="btn btn-ghost" id="paCancel" onclick="cancelEditPastoral()" style="display:none; width:100%; justify-content:center; margin-top:8px;">Cancelar edição</button>
       <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
       <div class="form-group"><label>Novo pensamento do dia</label>
         <textarea id="tText" placeholder="Texto (confira a fonte antes de publicar)" class="admin-input" style="height:70px; font-family:inherit;"></textarea>
@@ -969,7 +996,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeEvent(); });
 
   function fmtData(iso){ return iso ? iso.split('-').reverse().join('/') : ''; }
-  var ADMIN_DATA = {news:[], events:[], priests:[]};
+  var ADMIN_DATA = {news:[], events:[], priests:[], pastorais:[]};
   async function loadPortal(){
     try{
       var d = await api('/api/news');
@@ -990,13 +1017,59 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
       ADMIN_DATA.priests = p.priests || [];
       renderPriests(p.priests || []);
     }catch(e){}
+    try{
+      var pa = await api('/api/pastorais');
+      ADMIN_DATA.pastorais = pa.pastorais || [];
+      renderPastorais(ADMIN_DATA.pastorais);
+    }catch(e){ renderPastorais([]); }
     renderAdminLists();
+  }
+
+  // ---------- Pastorais ----------
+  function renderPastorais(list){
+    var grid = document.getElementById('pastoraisGrid');
+    if(!list.length){ grid.innerHTML = '<p class="admin-empty">Nenhuma pastoral cadastrada.</p>'; return; }
+    grid.innerHTML = list.map(function(p){
+      return '<a class="pastoral-item" href="pastoral.html?id=' + encodeURIComponent(p.id) + '"><span class="pastoral-logo">' +
+        (p.logo_url ? '<img loading="lazy" src="' + esc(p.logo_url) + '" alt="Logo ' + esc(p.name) + '" onerror="this.remove()">' : esc((p.name || '?').charAt(0).toUpperCase())) +
+        '</span><span class="pastoral-nome">' + esc(p.name) + '</span></a>';
+    }).join('');
+  }
+  var editingPastoralId = null;
+  function cancelEditPastoral(){
+    editingPastoralId = null;
+    ['paName','paLogo','paDesc'].forEach(function(id){ document.getElementById(id).value = ''; });
+    document.getElementById('paLabel').textContent = 'Nova pastoral';
+    document.getElementById('paSubmit').textContent = 'Adicionar pastoral';
+    document.getElementById('paCancel').style.display = 'none';
+  }
+  function editPastoral(id){
+    var p = ADMIN_DATA.pastorais.filter(function(x){ return x.id === id; })[0]; if(!p) return;
+    editingPastoralId = id;
+    document.getElementById('paName').value = p.name || '';
+    document.getElementById('paLogo').value = p.logo_url || '';
+    document.getElementById('paDesc').value = p.description || '';
+    document.getElementById('paLabel').textContent = 'Editando pastoral';
+    document.getElementById('paSubmit').textContent = 'Salvar alterações';
+    document.getElementById('paCancel').style.display = 'flex';
+    document.getElementById('paName').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  async function submitPastoral(){
+    var name = document.getElementById('paName').value.trim();
+    if(!name){ showToast('Informe o nome da pastoral.'); return; }
+    var body = JSON.stringify({name: name, logo_url: document.getElementById('paLogo').value.trim(), description: document.getElementById('paDesc').value});
+    try{
+      if(editingPastoralId) await api('/api/pastorais/' + editingPastoralId, {method:'PUT', body: body});
+      else await api('/api/pastorais', {method:'POST', body: body});
+      var edit = !!editingPastoralId;
+      cancelEditPastoral(); showToast(edit ? 'Pastoral atualizada.' : 'Pastoral adicionada.'); loadPortal();
+    }catch(err){ showToast(err.message); }
   }
 
   // ---------- Gerenciar publicados (remover notícia, evento ou padre) ----------
   function adminRow(kind, id, title, sub){
     return '<div class="admin-item"><div class="admin-item-txt"><strong>' + esc(title) + '</strong>' + (sub ? '<span>' + esc(sub) + '</span>' : '') + '</div>' +
-      (kind === 'news' ? '<button type="button" class="btn-remove" style="border-color:var(--wood); color:var(--wood);" onclick="editNews(' + Number(id) + ')">Editar</button>' : '') +
+      (kind === 'news' || kind === 'pastorais' ? '<button type="button" class="btn-remove" style="border-color:var(--wood); color:var(--wood);" onclick="' + (kind === 'news' ? 'editNews' : 'editPastoral') + '(' + Number(id) + ')">Editar</button>' : '') +
       '<button type="button" class="btn-remove" data-kind="' + kind + '" data-id="' + esc(id) + '" data-label="' + esc(title) + '">Remover</button></div>';
   }
   function renderAdminLists(){
@@ -1005,7 +1078,8 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
     box.innerHTML =
       section('Notícias', ADMIN_DATA.news.map(function(n){ return adminRow('news', n.id, n.title, new Date(n.published_at).toLocaleDateString('pt-BR')); })) +
       section('Eventos', ADMIN_DATA.events.map(function(e){ return adminRow('events', e.id, e.title, fmtData(e.event_date) || 'Data a definir'); })) +
-      section('Padres', ADMIN_DATA.priests.map(function(p){ return adminRow('priests', p.id, p.name, ''); }));
+      section('Padres', ADMIN_DATA.priests.map(function(p){ return adminRow('priests', p.id, p.name, ''); })) +
+      section('Pastorais', ADMIN_DATA.pastorais.map(function(p){ return adminRow('pastorais', p.id, p.name, ''); }));
   }
   async function removeItem(kind, id, label){
     if(!confirm('Remover "' + label + '"? Essa ação não pode ser desfeita.')) return;
