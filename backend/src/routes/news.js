@@ -33,7 +33,7 @@ router.post('/', requireAuth, requireRole('administrativo'), async (req, res) =>
   try {
     const { title, excerpt, content, image_url, category, event_date, registration_url } = req.body;
     if (!title) return res.status(400).json({ error: 'Título é obrigatório.' });
-    const imgOk = !image_url || isUrl(image_url) || String(image_url).startsWith('imagens/');
+    const imgOk = !image_url || isUrl(image_url) || String(image_url).startsWith('imagens/') || String(image_url).startsWith('/api/images/');
     if (!isUrl(registration_url) || !imgOk)
       return res.status(400).json({ error: 'Links precisam começar com http:// ou https://.' });
     const r = await query(
@@ -50,7 +50,7 @@ router.put('/:id(\\d+)', requireAuth, requireRole('administrativo'), async (req,
   try {
     const { title, excerpt, content, image_url } = req.body;
     if (!title || !String(title).trim()) return res.status(400).json({ error: 'Título é obrigatório.' });
-    if (!(!image_url || isUrl(image_url) || String(image_url).startsWith('imagens/')))
+    if (!(!image_url || isUrl(image_url) || String(image_url).startsWith('imagens/') || String(image_url).startsWith('/api/images/')))
       return res.status(400).json({ error: 'Links precisam começar com http:// ou https://.' });
     const r = await query(
       `UPDATE news SET title=$1, excerpt=$2, content=$3, image_url=$4 WHERE id=$5`,

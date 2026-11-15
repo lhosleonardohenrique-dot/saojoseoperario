@@ -3,7 +3,7 @@ const { query } = require('../db');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
-const okImg = (u) => !u || /^https?:\/\//i.test(u) || String(u).startsWith('imagens/');
+const okImg = (u) => !u || /^https?:\/\//i.test(u) || (String(u).startsWith('imagens/') || String(u).startsWith('/api/images/'));
 
 // Público: lista (logo + nome)
 router.get('/', async (req, res) => {

@@ -20,6 +20,9 @@ O banco é **privado**: só o servidor acessa, pela senha da connection string.
 
 **Vela em outros computadores:** a vela só é compartilhada quando o site é aberto pelo servidor (a página chama `/api/candles`). Se abrir o `index.html` direto do disco ou numa hospedagem estática sem o backend, o site cai no modo local (vela só naquele aparelho).
 
+## Imagens
+Na Área Administrativa o botão "Escolher imagem" abre o explorador de arquivos do computador; a imagem é reduzida no navegador e salva **no banco** (tabela `images`), pois o disco do Render é temporário. Rotas: `POST /api/uploads` (administrativo, corpo = bytes da imagem) e `GET /api/images/:id` (público). Aceita PNG, JPG, WEBP e GIF (máx. 6 MB).
+
 ## Limpeza automática
 A cada 6h (e ao iniciar) o servidor apaga notícias com mais de 2 meses (eventos futuros ficam) e velas com mais de 48h.
 

@@ -14,6 +14,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/events', require('./routes/events'));
 app.use('/api/priests', require('./routes/priests'));
+app.use('/api', require('./routes/uploads'));
 app.use('/api/pastorais', require('./routes/pastorais'));
 app.use('/api/candles', require('./routes/candles'));
 app.use('/api/thoughts', require('./routes/thoughts'));

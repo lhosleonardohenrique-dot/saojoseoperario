@@ -4,7 +4,7 @@ const { requireAuth, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
 const isUrl = (u) => !u || /^https?:\/\//i.test(u);
-const okImg = (u) => !u || isUrl(u) || String(u).startsWith('imagens/');
+const okImg = (u) => !u || isUrl(u) || (String(u).startsWith('imagens/') || String(u).startsWith('/api/images/'));
 
 // Público: eventos que ainda vão acontecer (ou sem data), do mais próximo ao mais distante
 router.get('/', async (req, res) => {

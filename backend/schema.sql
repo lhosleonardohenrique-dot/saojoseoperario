@@ -28,6 +28,14 @@ CREATE TABLE IF NOT EXISTS priests (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Imagens enviadas pela área administrativa (ficam no banco para não sumirem no Render)
+CREATE TABLE IF NOT EXISTS images (
+  id SERIAL PRIMARY KEY,
+  mime TEXT NOT NULL,
+  data BYTEA NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 -- Pastorais: logo + nome + descrição
 CREATE TABLE IF NOT EXISTS pastorais (
   id SERIAL PRIMARY KEY,
