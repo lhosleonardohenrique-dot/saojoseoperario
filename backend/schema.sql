@@ -36,6 +36,14 @@ CREATE TABLE IF NOT EXISTS images (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Palavras proibidas nas velas (cadastradas na Área Administrativa)
+CREATE TABLE IF NOT EXISTS banned_words (
+  id SERIAL PRIMARY KEY,
+  word TEXT NOT NULL,
+  normalized TEXT NOT NULL UNIQUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 -- Pastorais: logo + nome + descrição
 CREATE TABLE IF NOT EXISTS pastorais (
   id SERIAL PRIMARY KEY,

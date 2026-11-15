@@ -63,6 +63,12 @@ async function initDb() {
       data BYTEA NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+    CREATE TABLE IF NOT EXISTS banned_words (
+      id SERIAL PRIMARY KEY,
+      word TEXT NOT NULL,
+      normalized TEXT NOT NULL UNIQUE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
     CREATE TABLE IF NOT EXISTS priests (
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,

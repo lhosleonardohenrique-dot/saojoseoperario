@@ -2,6 +2,9 @@
 // 1) lista de palavras (grátis, instantânea)  2) modelo de IA da OpenAI (se OPENAI_API_KEY estiver definida), que entende duplo sentido.
 // Se a OpenAI estiver fora do ar, a vela é aceita (e o erro vai para o log) para ninguém ficar sem poder rezar.
 
+const { query } = require('./db');
+
+// Lista fixa (no código). As palavras que a secretaria cadastra na Área Administrativa ficam no banco (tabela banned_words).
 // Edite à vontade. Comparação sem acento, ignorando maiúsculas e símbolos usados como disfarce (p0rra, p.o.r.r.a).
 const BLOCKED = [
   'porra', 'caralho', 'cacete', 'merda', 'bosta', 'puta', 'puto', 'viado', 'veado', 'buceta', 'xoxota', 'piroca', 'pau no cu',
@@ -22,7 +25,7 @@ function normalize(text) {
     .replace(/[^a-z\s]/g, '');           // tira pontos, traços etc.
 }
 
-function hasBlockedWord(text) {
+function hasBlockedWord(text, extra) {
   const tokens = normalize(text).split(/\s+/).filter(Boolean);
   // junta letras soltas: "p o r r a" -> "porra"
   const joined = [];
@@ -31,12 +34,25 @@ function hasBlockedWord(text) {
   if (run) joined.push(run);
   const all = tokens.concat(joined);
   const phrase = tokens.join(' ');
-  return BLOCKED.some((w) => {
-    const word = normalize(w);
+  return BLOCKED.concat(extra || []).some((w) => {
+    const word = normalize(w).trim();
+    if (!word) return false;
     if (word.includes(' ')) return phrase.includes(word);               // expressões: "filho da puta"
     // palavra inteira (ou flexão, para palavras longas: "merdas", "desgracado")
     return all.some((t) => t === word || (word.length >= 5 && t.startsWith(word)));
   });
+}
+
+// Palavras cadastradas pela secretaria (cache de 30 s; zerado quando alguém adiciona/remove)
+let cache = { at: 0, words: [] };
+function clearWordsCache() { cache.at = 0; }
+async function adminWords() {
+  if (Date.now() - cache.at < 30000) return cache.words;
+  try {
+    const r = await query('SELECT word FROM banned_words');
+    cache = { at: Date.now(), words: r.rows.map((x) => x.word) };
+  } catch (e) { console.error('Não consegui ler banned_words:', e.message); }
+  return cache.words;
 }
 
 const PROMPT = `Você é o moderador da vela virtual do site de uma paróquia católica brasileira. Recebe um NOME e uma INTENÇÃO escritos por visitantes e decide se podem ser exibidos publicamente.
@@ -97,7 +113,7 @@ async function isAllowed(name, intention) {
   const text = [name, intention].filter(Boolean).join('\n').trim();
   if (!text) return true;
   const tag = JSON.stringify({ nome: name || '', intencao: intention || '' });
-  if (hasBlockedWord(text)) { console.log('[velas] REPROVADA pela lista:', tag); return false; }
+  if (hasBlockedWord(text, await adminWords())) { console.log('[velas] REPROVADA pela lista:', tag); return false; }
   if (!aiEnabled()) { console.log('[velas] aprovada (IA desligada: falta OPENAI_API_KEY):', tag); return true; }
   const verdict = await rejectedByAI(name, intention);
   if (verdict !== null) { console.log(`[velas] ${verdict ? 'REPROVADA' : 'aprovada'} pela IA:`, tag); return !verdict; }
@@ -108,4 +124,4 @@ async function isAllowed(name, intention) {
   return aceitar;
 }
 
-module.exports = { isAllowed, hasBlockedWord, aiEnabled };
+module.exports = { isAllowed, hasBlockedWord, aiEnabled, normalize, clearWordsCache };

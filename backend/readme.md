@@ -26,6 +26,9 @@ Na Área Administrativa o botão "Escolher imagem" abre o explorador de arquivos
 ## Moderação das velas
 `src/moderation.js`: lista de palavras (edite `BLOCKED`) + modelo de IA da OpenAI (`gpt-4o-mini`, permissão *Chat completions*) que entende duplo sentido e nomes de brincadeira; se ele falhar, tenta a moderação padrão (*Moderations*). Se tudo falhar, a vela é aceita e o erro vai para o log. `GET /api/health` mostra se a IA está ativa (`filtro_velas.ia`). Nunca coloque a chave no código nem no `.env.example`.
 
+## Palavras proibidas (velas)
+A secretaria cadastra palavras ou expressões na Área Administrativa ("Palavra proibida nas velas"); ficam na tabela `banned_words` e valem junto com a lista fixa e a IA. Rotas (administrativo): `GET/POST /api/banned-words`, `DELETE /api/banned-words/:id`. Comparação por palavra inteira, sem maiúsculas/acentos e ignorando disfarces (p0rra); expressões com espaço também funcionam.
+
 ## Limpeza automática
 A cada 6h (e ao iniciar) o servidor apaga notícias com mais de 2 meses (eventos futuros ficam) e velas com mais de 48h.
 

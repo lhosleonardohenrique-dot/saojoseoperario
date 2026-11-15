@@ -860,6 +860,11 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
       <button type="button" class="btn btn-ghost" id="paSubmit" onclick="submitPastoral()" style="width:100%; justify-content:center;">Adicionar pastoral</button>
       <button type="button" class="btn btn-ghost" id="paCancel" onclick="cancelEditPastoral()" style="display:none; width:100%; justify-content:center; margin-top:8px;">Cancelar edição</button>
       <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
+      <div class="form-group"><label>Palavra proibida nas velas</label>
+        <input type="text" id="bwWord" placeholder="Palavra ou expressão (ex: fulano turbo)" class="admin-input" maxlength="60" onkeydown="if(event.key==='Enter'){event.preventDefault();submitBannedWord();}">
+        <span style="font-size:12px; color:var(--ink-soft);">Vale para o nome e a intenção da vela. Não diferencia maiúsculas, acentos nem disfarces como p0rra.</span></div>
+      <button type="button" class="btn btn-ghost" onclick="submitBannedWord()" style="width:100%; justify-content:center;">Proibir palavra</button>
+      <hr style="border:none; border-top:1px solid var(--line); margin:20px 0;">
       <div class="form-group"><label>Novo pensamento do dia</label>
         <textarea id="tText" placeholder="Texto (confira a fonte antes de publicar)" class="admin-input" style="height:70px; font-family:inherit;"></textarea>
         <input type="text" id="tRef" placeholder="Fonte (opcional)" class="admin-input"></div>
@@ -1004,7 +1009,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeEvent(); });
 
   function fmtData(iso){ return iso ? iso.split('-').reverse().join('/') : ''; }
-  var ADMIN_DATA = {news:[], events:[], priests:[], pastorais:[]};
+  var ADMIN_DATA = {news:[], events:[], priests:[], pastorais:[], banned:[]};
   async function loadPortal(){
     try{
       var d = await api('/api/news');
@@ -1030,7 +1035,20 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
       ADMIN_DATA.pastorais = pa.pastorais || [];
       renderPastorais(ADMIN_DATA.pastorais);
     }catch(e){ renderPastorais([]); }
+    if(localStorage.getItem('adm_token')){
+      try{ var bw = await api('/api/banned-words'); ADMIN_DATA.banned = bw.words || []; }catch(e){}
+    }
     renderAdminLists();
+  }
+
+  // ---------- Palavras proibidas ----------
+  async function submitBannedWord(){
+    var el = document.getElementById('bwWord'), w = el.value.trim();
+    if(!w){ showToast('Digite a palavra.'); return; }
+    try{
+      await api('/api/banned-words', {method:'POST', body: JSON.stringify({word: w})});
+      el.value = ''; showToast('Palavra proibida.'); loadPortal();
+    }catch(err){ showToast(err.message); }
   }
 
   // ---------- Seletor de imagem: escolhe do computador, reduz e envia para o servidor ----------
@@ -1140,7 +1158,8 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
       section('Notícias', ADMIN_DATA.news.map(function(n){ return adminRow('news', n.id, n.title, new Date(n.published_at).toLocaleDateString('pt-BR')); })) +
       section('Eventos', ADMIN_DATA.events.map(function(e){ return adminRow('events', e.id, e.title, fmtData(e.event_date) || 'Data a definir'); })) +
       section('Padres', ADMIN_DATA.priests.map(function(p){ return adminRow('priests', p.id, p.name, ''); })) +
-      section('Pastorais', ADMIN_DATA.pastorais.map(function(p){ return adminRow('pastorais', p.id, p.name, ''); }));
+      section('Pastorais', ADMIN_DATA.pastorais.map(function(p){ return adminRow('pastorais', p.id, p.name, ''); })) +
+      section('Palavras proibidas (velas)', ADMIN_DATA.banned.map(function(b){ return adminRow('banned-words', b.id, b.word, ''); }));
   }
   async function removeItem(kind, id, label){
     if(!confirm('Remover "' + label + '"? Essa ação não pode ser desfeita.')) return;
@@ -1243,7 +1262,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
       if(d.user.role !== 'administrativo'){ showToast('Esta conta não tem acesso administrativo.'); return; }
       localStorage.setItem('adm_token', d.token);
       document.getElementById('adminPassword').value = '';
-      showAdmin(true); showToast('Login efetuado.');
+      showAdmin(true); showToast('Login efetuado.'); loadPortal();
     }catch(err){ showToast(err.message); }
   }
   function handleAdminLogout(){ localStorage.removeItem('adm_token'); showAdmin(false); closeAdminModal(); }
