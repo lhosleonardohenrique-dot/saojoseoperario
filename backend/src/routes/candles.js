@@ -1,6 +1,7 @@
 const express = require('express');
 const { query } = require('../db');
 const { requireAuth, requireRole } = require('../middleware/auth');
+const { isAllowed } = require('../moderation');
 
 const router = express.Router();
 const hits = new Map(); // limite simples: 3 velas por hora por IP
@@ -23,6 +24,8 @@ router.post('/', async (req, res) => {
     if (recent.length >= 3) return res.status(429).json({ error: 'Você já acendeu algumas velas. Tente novamente mais tarde.' });
     const name = String(req.body.name || '').trim().slice(0, 30);
     const intention = String(req.body.intention || '').trim().slice(0, 140);
+    if (!(await isAllowed(name, intention)))
+      return res.status(422).json({ error: 'Não foi possível acender essa vela. Revise o nome e a intenção.' });
     const r = await query('INSERT INTO candles (name, intention) VALUES ($1,$2) RETURNING id', [name, intention]);
     recent.push(Date.now()); hits.set(ip, recent);
     res.status(201).json({ id: r.rows[0].id });

@@ -1221,7 +1221,7 @@ body.high-contrast .pastoral-card .p-time{ color:#FFD54A !important; }
     try{
       await api('/api/candles', {method:'POST', body: JSON.stringify(c)});
     }catch(e){
-      if(e.status === 429){ showToast(e.message); return; }
+      if(e.status === 429 || e.status === 422){ showToast(e.message); return; }
       try{ var l = velasLocais(); l.push({name: c.name, intention: c.intention, t: Date.now()}); localStorage.setItem(VELAS_KEY, JSON.stringify(l)); }catch(x){}
     }
     document.getElementById('velaIntention').value = '';
