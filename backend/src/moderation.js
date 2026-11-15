@@ -6,6 +6,9 @@
 const BLOCKED = [
   'porra', 'caralho', 'cacete', 'merda', 'bosta', 'puta', 'puto', 'viado', 'veado', 'buceta', 'xoxota', 'piroca', 'pau no cu',
   'foder', 'foda-se', 'fodase', 'fdp', 'filho da puta', 'cuzao', 'cu', 'arrombado', 'otario', 'idiota', 'imbecil', 'babaca',
+  'penis', 'pica', 'piru', 'vagina', 'xereca', 'ppk', 'xana', 'boquete', 'siririca', 'punheta', 'transar', 'tesao', 'bunda', 'tetas',
+  'cuzinho', 'anus', 'gostosa', 'gostoso', 'safada', 'safado', 'pornografia', 'porno', 'estuprador', 'corno', 'corna', 'bicha', 'traveco',
+  // (de fora de propósito: pinto/rola/peito/gozar/sexo/gay/burro... — são sobrenomes ou aparecem em orações legítimas; a IA avalia esses casos)
   'retardado', 'vagabunda', 'vagabundo', 'desgraca', 'desgracado', 'nazista', 'hitler', 'macaco', 'neguinho', 'sapatao',
 ];  // (termos religiosos como demônio/diabo ficam de fora de propósito: aparecem em orações legítimas)
 
@@ -86,23 +89,23 @@ async function rejectedByAI(name, intention) {
   catch (e) { console.error('Resposta da IA ilegível:', e.message); return null; }
 }
 
-// Plano B se o modelo de conversa falhar: moderação padrão da OpenAI
-async function flaggedByModeration(text) {
-  const d = await openai('/v1/moderations', { model: 'omni-moderation-latest', input: text });
-  return !!(d && d.results && d.results[0] && d.results[0].flagged);
-}
-
 function aiEnabled() { return !!process.env.OPENAI_API_KEY; }
 
-// true = pode publicar
+// true = pode publicar. Com a IA ativada, se ela e a moderação falharem a vela é BLOQUEADA
+// (assim nada ofensivo passa sem filtro). Para aceitar nesse caso, defina MODERACAO_FALHA=aceitar no Render.
 async function isAllowed(name, intention) {
   const text = [name, intention].filter(Boolean).join('\n').trim();
   if (!text) return true;
-  if (hasBlockedWord(text)) return false;
-  if (!aiEnabled()) return true;
+  const tag = JSON.stringify({ nome: name || '', intencao: intention || '' });
+  if (hasBlockedWord(text)) { console.log('[velas] REPROVADA pela lista:', tag); return false; }
+  if (!aiEnabled()) { console.log('[velas] aprovada (IA desligada: falta OPENAI_API_KEY):', tag); return true; }
   const verdict = await rejectedByAI(name, intention);
-  if (verdict !== null) return !verdict;
-  return !(await flaggedByModeration(text));      // IA fora do ar: tenta a moderação; se também falhar, aceita
+  if (verdict !== null) { console.log(`[velas] ${verdict ? 'REPROVADA' : 'aprovada'} pela IA:`, tag); return !verdict; }
+  const flagged = await openai('/v1/moderations', { model: 'omni-moderation-latest', input: text });
+  if (flagged) { const f = !!(flagged.results && flagged.results[0] && flagged.results[0].flagged); console.log(`[velas] ${f ? 'REPROVADA' : 'aprovada'} pela moderação:`, tag); return !f; }
+  const aceitar = String(process.env.MODERACAO_FALHA || '').toLowerCase() === 'aceitar';
+  console.error(`[velas] IA indisponível — vela ${aceitar ? 'ACEITA' : 'BLOQUEADA'}:`, tag);
+  return aceitar;
 }
 
 module.exports = { isAllowed, hasBlockedWord, aiEnabled };
