@@ -29,6 +29,9 @@ Na Área Administrativa o botão "Escolher imagem" abre o explorador de arquivos
 ## Palavras proibidas (velas)
 A secretaria cadastra palavras ou expressões na Área Administrativa ("Palavra proibida nas velas"); ficam na tabela `banned_words` e valem junto com a lista fixa e a IA. Rotas (administrativo): `GET/POST /api/banned-words`, `DELETE /api/banned-words/:id`. Comparação por palavra inteira, sem maiúsculas/acentos e ignorando disfarces (p0rra); expressões com espaço também funcionam.
 
+## Galeria de fotos
+Tabelas `albums` e `album_photos` (a capa de cada pasta é a primeira foto). Páginas: `galeria.html` (pastas) e `galeria.html?id=N` (fotos + visualizador). Na página inicial, um cartão mostra as capas de até 4 pastas. Rotas públicas: `GET /api/gallery/albums`, `GET /api/gallery/albums/:id`. Administrativo: `POST /api/gallery/albums`, `PUT/DELETE /api/gallery/albums/:id`, `POST /api/gallery/albums/:id/photos`, `DELETE /api/gallery/photos/:id`. As fotos são reduzidas no navegador (1600 px e miniatura de 480 px) e guardadas no banco (`images`); apagar uma foto ou pasta também apaga as imagens.
+
 ## Limpeza automática
 A cada 6h (e ao iniciar) o servidor apaga notícias com mais de 2 meses (eventos futuros ficam) e velas com mais de 48h.
 

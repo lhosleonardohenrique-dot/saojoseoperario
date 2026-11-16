@@ -15,6 +15,7 @@ app.use('/api/news', require('./routes/news'));
 app.use('/api/events', require('./routes/events'));
 app.use('/api/priests', require('./routes/priests'));
 app.use('/api', require('./routes/uploads'));
+app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/banned-words', require('./routes/banned-words'));
 app.use('/api/pastorais', require('./routes/pastorais'));
 app.use('/api/candles', require('./routes/candles'));
@@ -24,6 +25,7 @@ app.use('/api/thoughts', require('./routes/thoughts'));
 const root = path.join(__dirname, '..', '..');
 app.use('/imagens', express.static(path.join(root, 'imagens')));
 app.get(['/', '/index.html'], (req, res) => res.sendFile(path.join(root, 'index.html')));
+app.get(['/galeria', '/galeria.html'], (req, res) => res.sendFile(path.join(root, 'galeria.html')));
 app.get(['/pastoral', '/pastoral.html'], (req, res) => res.sendFile(path.join(root, 'pastoral.html')));
 app.get(['/noticia', '/noticia.html'], (req, res) => res.sendFile(path.join(root, 'noticia.html')));
 

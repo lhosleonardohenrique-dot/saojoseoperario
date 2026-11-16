@@ -44,6 +44,22 @@ CREATE TABLE IF NOT EXISTS banned_words (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Galeria de fotos: pastas (álbuns) e suas fotos; a capa é a primeira foto
+CREATE TABLE IF NOT EXISTS albums (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS album_photos (
+  id SERIAL PRIMARY KEY,
+  album_id INTEGER NOT NULL REFERENCES albums(id) ON DELETE CASCADE,
+  image_url TEXT NOT NULL,
+  thumb_url TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS album_photos_album_idx ON album_photos (album_id, sort_order, id);
+
 -- Pastorais: logo + nome + descrição
 CREATE TABLE IF NOT EXISTS pastorais (
   id SERIAL PRIMARY KEY,
